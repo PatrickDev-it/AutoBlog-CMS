@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { ImageLoader } from '@/components/imageLoader';
 import { Button } from '@/ui/button';
 import { ServerProps } from '@/app/@inset/advisory/page';
+import { useToast } from '@/hooks/use-toast';
 
 export default ({ api, data }: ServerProps) => {
+	const { toast } = useToast();
 	const [about, setAbout] = useState(data.about);
 	const [services, setServices] = useState(data.services);
 
-	const [image, setImage] = useState<{ display_name: string; public_id: string }>(
-		data.image ?? ({} as any)
-	);
+	const [image, setImage] = useState<{ display_name: string; public_id: string }>(data.image ?? ({} as any));
 	const [file, setFile] = useState<File | null>(null);
 	const [timeout, startTimeout] = useState<NodeJS.Timeout | null>(null);
 
@@ -23,40 +23,44 @@ export default ({ api, data }: ServerProps) => {
 			reader.onload = async () => {
 				const base64 = reader.result;
 				if (typeof base64 !== 'string' || !base64) return;
-				const uplaoded = await api.uploadImage({
-					public_id: image?.public_id,
-					base64,
+				// Demo mode: Update local state only
+				setImage({
+					public_id: `demo-image-${Date.now()}`,
+					display_name: 'Advisory Image',
 				});
-				// @ts-ignore
-				setImage(uplaoded);
+
+				toast({
+					title: '🖼️ Advisory Image Updated',
+					description: 'Cover image changed successfully',
+					duration: 3000,
+				});
 			};
 			reader.onerror = () => {
 				alert('Error reading file!');
 			};
 		}
 
-		await api.updateAdvisory({ id: data.id, about, services });
+		// Demo mode: Local state update only - no API call
+		console.log('Demo mode: Advisory updated locally', { about, services });
+
+		toast({
+			title: '✅ Advisory Panel Saved',
+			description: 'About and services information updated',
+			duration: 3000,
+		});
 	};
 
 	return (
 		<div className="relative flex flex-col lg:grid lg:grid-cols-12 lg:grid-rows-[repeat(12,minmax(2.5rem,auto))] gap-[--p] size-full overflow-scroll">
 			<div className="grid grid-rows-[1.3rem_auto] grid-cols-1 -col-end-1 col-span-5 row-span-full w-full gap-[--p]">
 				<div className="flex flex-row justify-between items-center row-span-1 size-full">
-					<h3 className="text-xl leading-none ml-1">
-						Immagine di copertina
-					</h3>
+					<h3 className="text-xl leading-none ml-1">Immagine di copertina</h3>
 
-					<Button
-						onClick={handleSubmit}
-						className=" text-xs w-fit h-full">
+					<Button onClick={handleSubmit} className=" text-xs w-fit h-full">
 						Save
 					</Button>
 				</div>
-				<ImageLoader
-					className="flex row-span-1 w-full h-[70svh] lg:h-full"
-					image={data.image}
-					onFileChange={setFile}
-				/>
+				<ImageLoader className="flex row-span-1 w-full h-[70svh] lg:h-full" image={data.image} onFileChange={setFile} />
 			</div>
 			<div className="flex flex-col col-start-1 col-span-7 row-span-5 size-full gap-[--p]">
 				<h3 className="text-xl leading-none ml-1">About</h3>

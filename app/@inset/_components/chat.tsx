@@ -20,15 +20,11 @@ export default ({ onSend }: { onSend: (history: Content[]) => Promise<string> })
 		setHistory(p => {
 			const last = p[p.length - 1];
 			console.log('last => ', p, history);
-			return last?.role !== role
-				? [...p, { role, parts: [{ text }] }]
-				: [...p.slice(0, -1), { role, parts: [...last.parts, { text }] }];
+			return last?.role !== role ? [...p, { role, parts: [{ text }] }] : [...p.slice(0, -1), { role, parts: [...last.parts, { text }] }];
 		});
 	};
 
-	const updatedState: <T>(
-		setState: Dispatch<SetStateAction<T>>
-	) => Promise<T> = async setState => {
+	const updatedState: <T>(setState: Dispatch<SetStateAction<T>>) => Promise<T> = async setState => {
 		return new Promise(r => {
 			setState(p => {
 				r(p);
@@ -50,18 +46,48 @@ export default ({ onSend }: { onSend: (history: Content[]) => Promise<string> })
 	return (
 		<div className="relative grow shrink flex flex-col items-center justify-start overflow-hidden">
 			<div className="flex flex-col size-full justify-start items-center gap-[--p] pb-60 overflow-x-hidden overflow-y-scroll">
+				{history.length === 0 && (
+					<div className="flex flex-col items-center justify-center h-full w-full gap-[--p] px-[--p] py-[--p]">
+						<div className="flex justify-center items-center size-12 rounded-full bg-foreground/5 mb-2">
+							<span className="text-2xl">✨</span>
+						</div>
+						<h3 className="text-lg font-semibold text-foreground">Autoblog CMS AI Assistant</h3>
+						<p className="text-sm text-foreground/60 text-center max-w-sm">
+							Get intelligent guidance on content creation, SEO strategy, editorial standards, and blog growth.
+						</p>
+						<div className="flex flex-col gap-2 mt-4 w-full max-w-sm">
+							<p className="text-xs font-semibold text-foreground/50 uppercase">Try asking about:</p>
+							<div className="flex flex-col gap-2">
+								<button
+									onClick={() => setInput('How do I create compelling blog content?')}
+									className="text-left px-3 py-2 rounded-md bg-foreground/5 hover:bg-foreground/10 transition-colors text-sm text-foreground/70 hover:text-foreground">
+									How do I create compelling blog content?
+								</button>
+								<button
+									onClick={() => setInput('What are SEO best practices for my blog?')}
+									className="text-left px-3 py-2 rounded-md bg-foreground/5 hover:bg-foreground/10 transition-colors text-sm text-foreground/70 hover:text-foreground">
+									What are SEO best practices for my blog?
+								</button>
+								<button
+									onClick={() => setInput('How to maintain editorial quality standards?')}
+									className="text-left px-3 py-2 rounded-md bg-foreground/5 hover:bg-foreground/10 transition-colors text-sm text-foreground/70 hover:text-foreground">
+									How to maintain editorial quality standards?
+								</button>
+								<button
+									onClick={() => setInput('How can I track blog performance metrics?')}
+									className="text-left px-3 py-2 rounded-md bg-foreground/5 hover:bg-foreground/10 transition-colors text-sm text-foreground/70 hover:text-foreground">
+									How can I track blog performance metrics?
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
 				{history.map(({ role, parts }, index) =>
 					parts.map(({ text: message }, i) => {
-						return role === 'user' ? (
-							<SenderMessage key={role + index + i}>
-								{message}
-							</SenderMessage>
-						) : (
-							<ReceiverMessage key={role + index + i}>
-								{message}
-							</ReceiverMessage>
-						);
-					})
+						return role === 'user' ?
+								<SenderMessage key={role + index + i}>{message}</SenderMessage>
+							:	<ReceiverMessage key={role + index + i}>{message}</ReceiverMessage>;
+					}),
 				)}
 			</div>
 			<form
@@ -108,13 +134,9 @@ export default ({ onSend }: { onSend: (history: Content[]) => Promise<string> })
 
 								await new Promise(r => setTimeout(r, 2500));
 
-								const updatedWriting = await updatedState(
-									setWriting
-								);
+								const updatedWriting = await updatedState(setWriting);
 								if (updatedWriting) return;
-								const updatedMessages = await updatedState(
-									setHistory
-								);
+								const updatedMessages = await updatedState(setHistory);
 
 								const response = await onSend(updatedMessages);
 								addMessage('model', response);

@@ -1,23 +1,37 @@
 export default {
-	exhibitions: {
-		name: 'New Exhibition',
-		title: '',
-		description: '',
-		date: { from: '', to: '' },
-		state: '',
+	featured: {
+		name: 'New Featured Story',
+		title: 'Add Title',
+		description: 'Add description',
+		date: new Date().toISOString(),
+		state: 'Draft',
 	},
-	journals: {
-		name: 'New journal',
-		title: '',
-		description: '',
-		date: '',
-		state: '',
+	design: {
+		name: 'New Design Article',
+		title: 'Add Title',
+		description: 'Add description',
+		date: new Date().toISOString(),
+		state: 'Draft',
 	},
-	lifestyle: {
-		name: 'New Lifestyle',
-		title: '',
-		description: '',
-		date: '',
-		state: '',
+	culture: {
+		name: 'New Culture Story',
+		title: 'Add Title',
+		description: 'Add description',
+		date: new Date().toISOString(),
+		state: 'Draft',
+	},
+	insights: {
+		name: 'New Insight',
+		title: 'Add Title',
+		description: 'Add description',
+		date: new Date().toISOString(),
+		state: 'Draft',
+	},
+	resources: {
+		name: 'New Resource',
+		title: 'Add Title',
+		description: 'Add description',
+		date: new Date().toISOString(),
+		state: 'Draft',
 	},
 };

@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { CldImage } from 'next-cloudinary';
 import { Input } from '@/ui/input';
 import { Button } from '@/ui/button';
 
@@ -13,39 +12,45 @@ import type { ServerProps } from '@/app/@inset/[section]/[id]/page';
 
 import { useToast } from '@/hooks/use-toast';
 
-export default ({ api, section, post: defaultPost }: ServerProps) => {
+const DEMO_PLACEHOLDER =
+	'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720"><rect width="100%" height="100%" fill="%23111827"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23ffffff" font-family="Arial" font-size="28">Demo Image</text></svg>';
+
+const resolveImageSrc = (value?: string) => {
+	if (!value) return DEMO_PLACEHOLDER;
+	if (value.startsWith('http://') || value.startsWith('https://') || value.startsWith('/') || value.startsWith('data:')) return value;
+
+	return DEMO_PLACEHOLDER;
+};
+
+export default ({ section, post: defaultPost }: ServerProps) => {
 	const { toast } = useToast();
 
 	const [post, _setPost] = useState(defaultPost);
 	const [timeout, startTimeout] = useState<NodeJS.Timeout | null>(null);
 
-	const [page, setPage] = useState('preview');
+	const [page, setPage] = useState<'preview' | 'inner'>('preview');
 	const [file, setFile] = useState<File | null>(null);
 
 	const setImage = (file: File) => {
 		const reader = new FileReader();
-		reader.readAsDataURL(file); // Converte il file in Base64
+		reader.readAsDataURL(file); // Converts the file to Base64
 		reader.onload = async () => {
 			const base64 = reader.result;
 			if (typeof base64 !== 'string' || !base64) return;
 
-			const image = await api.updateImage({
-				_id: post._id,
-				base64,
-				public_id: post.image?.public_id,
-				display_name: post.name.replace(/[^a-zA-Z0-9]/g, ' '),
-			});
-
-			await api.updatePost({
-				...post,
+			_setPost(prev => ({
+				...prev,
 				image: {
-					public_id: image.public_id,
-					display_name: image.display_name,
+					public_id: `demo-${Date.now()}`,
+					display_name: prev.name.replace(/[^a-zA-Z0-9]/g, ' ') || 'demo-image',
 				},
-			});
+			}));
 
-			await new Promise(r => setTimeout(r, 65));
-			_setPost(await api.getPost());
+			toast({
+				title: '🖼️ Featured Image Updated',
+				description: 'New cover image set successfully',
+				duration: 3000,
+			});
 		};
 		reader.onerror = () => {
 			alert('Error reading file!');
@@ -54,9 +59,12 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 	};
 
 	const handleSubmit = async (updatedPost: typeof defaultPost = post) => {
-		await api.updatePost(updatedPost);
-		await new Promise(r => setTimeout(r, 65));
-		_setPost(await api.getPost());
+		_setPost(updatedPost);
+		toast({
+			title: '✅ Post Saved',
+			description: 'All changes have been saved successfully',
+			duration: 3000,
+		});
 	};
 
 	const setPost = async (callback: Parameters<typeof _setPost>[0]) => {
@@ -64,12 +72,11 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 
 		const updatedPost = await new Promise(r =>
 			_setPost(prev => {
-				const updated =
-					typeof callback === 'function' ? callback(prev) : callback;
+				const updated = typeof callback === 'function' ? callback(prev) : callback;
 
 				r(updated);
 				return updated;
-			})
+			}),
 		);
 
 		startTimeout(
@@ -80,7 +87,7 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 					title: 'Post autosaved!',
 					duration: 10000,
 				});
-			}, 4000)
+			}, 500),
 		);
 
 		return updatedPost;
@@ -116,12 +123,10 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 				placeholder="Description"
 				className="flex col-start-1 max-xl:col-span-full col-span-8 row-span-5 md:size-full resize-none rounded-md border border-input bg-sidebar-accent px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none ring-0 ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
 			/>
-			{typeof post.date === 'object' ? (
+			{typeof post.date === 'object' ?
 				<>
 					<div className="relative col-span-2 row-span-1 row-start-1 gap-[inherit]">
-						<label className="absolute top-[calc(var(--p)/2)] left-[--p] opacity-65 text-xs">
-							From
-						</label>
+						<label className="absolute top-[calc(var(--p)/2)] left-[--p] opacity-65 text-xs">From</label>
 						<DatePicker
 							defaultDate={post.date.from}
 							onSelect={date =>
@@ -138,9 +143,7 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 						/>
 					</div>
 					<div className="relative col-span-2 row-span-1  row-start-1 gap-[inherit]">
-						<label className="absolute top-[calc(var(--p)/2)] left-[--p] opacity-65 text-xs">
-							To
-						</label>
+						<label className="absolute top-[calc(var(--p)/2)] left-[--p] opacity-65 text-xs">To</label>
 						<DatePicker
 							defaultDate={post.date.to}
 							onSelect={date =>
@@ -157,11 +160,8 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 						/>
 					</div>
 				</>
-			) : (
-				<div className="relative  col-span-4 row-span-1 row-start-1 gap-[inherit]">
-					<label className="absolute top-[calc(var(--p)/2)] left-[--p] opacity-65 text-xs">
-						Publication Date
-					</label>
+			:	<div className="relative  col-span-4 row-span-1 row-start-1 gap-[inherit]">
+					<label className="absolute top-[calc(var(--p)/2)] left-[--p] opacity-65 text-xs">Publication Date</label>
 					<DatePicker
 						defaultDate={post.date}
 						onSelect={date =>
@@ -171,10 +171,10 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 							}))
 						}
 						className="size-full bg-sidebar-accent"
-						placeholder="Data di pubblicazione"
+						placeholder="Publication date"
 					/>
 				</div>
-			)}
+			}
 
 			<Input
 				className="bg-sidebar-accent col-span-2 max-xl:col-span-3 row-span-1 row-start-2 md:size-full [&>input]:cursor-text"
@@ -191,15 +191,13 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 				onChange={e => setPost(p => ({ ...p, state: e.target.value }))}
 			/>
 
-			<Button
-				className="hidden max-xl:flex col-span-2 row-span-1 row-start-2 md:size-full"
-				onClick={() => handleSubmit()}>
+			<Button className="hidden max-xl:flex col-span-2 row-span-1 row-start-2 md:size-full" onClick={() => handleSubmit()}>
 				Submit
 			</Button>
 			<div className="max-xl:hidden z-10 relative flex flex-col items-center justify-end -row-end-1 row-span-8 -col-end-1 col-span-4 md:size-full rounded-xl overflow-hidden">
 				<div className="absolute size-full flex flex-col items-center justify-start px-6 ">
 					<div className="relative flex items-start justify-center size-fit min-h-[110%] max-2xl:w-11/12 !min-w-[15vw] 2xl:max-w-[65%] [mask-image:linear-gradient(to_bottom,#000_60%,transparent_95%)] transition-all duration-300 ">
-						<div className="absolute inset-auto bg-[#f8f8f8] mt-1 h-[calc(100%-2rem)] w-[calc(100%-1rem)] rounded-[2rem] -z-[1] overflow-hidden transition-all duration-300">
+						<div className="absolute inset-auto bg-[#f8f8f8] mt-1 h-[calc(100%-2rem)] w-[calc(100%-1rem)] rounded-xl 2xl:rounded-[2rem] min-[1921px]:rounded-[3rem] min-[2500px]:rounded-[5rem] -z-[1] overflow-hidden transition-all duration-300">
 							<WebApp
 								{...{
 									page,
@@ -221,10 +219,7 @@ export default ({ api, section, post: defaultPost }: ServerProps) => {
 					<div className="flex flex-row items-center justify-between w-4/5">
 						<Button
 							style={{
-								opacity:
-									page === 'preview'
-										? 0.5
-										: 1,
+								opacity: page === 'preview' ? 0.5 : 1,
 							}}
 							className="w-1/3"
 							onClick={() => setPage('preview')}>
@@ -259,26 +254,24 @@ const ImageLoader = ({
 }) => {
 	const fileInput = useRef<HTMLInputElement>(null);
 
-	const [image, setImage] = useState<{ display_name: string; public_id: string } | null>(
-		cdlImage
-	);
+	const [image, setImage] = useState<{ display_name: string; public_id: string } | null>(cdlImage);
 	const [file, setFile] = useState<File | null>(null);
-	const [preview, setPreview] = useState<string | null>(null); // Stato per l'anteprima
+	const [preview, setPreview] = useState<string | null>(null); // Preview state
 
 	const handleFileChange = () => {
 		const file = fileInput.current?.files?.[0];
 
 		if (!file) return;
-		// Controlla che il file sia un'immagine supportata
+		// Validate the selected file format
 		const validFormats = ['image/webp', 'image/png', 'image/jpeg', 'image/jpg'];
 		if (!validFormats.includes(file.type)) {
-			alert('Formato file non supportato. Usa WebP, PNG, JPEG o JPG.');
+			alert('Unsupported file format. Use WebP, PNG, JPEG, or JPG.');
 			setPreview(null);
 			setFile(null);
 			return;
 		}
 
-		// Crea un'anteprima temporanea
+		// Create a temporary preview
 		setPreview(URL.createObjectURL(file));
 		setFile(file);
 		onFileChange(file);
@@ -299,23 +292,22 @@ const ImageLoader = ({
 			<div className="relative flex justify-center items-center size-full rounded-lg overflow-hidden">
 				<div className="absolute inset-auto aspect-video size-full">
 					<div className="relative flex justify-center items-center size-full">
-						{image ? (
+						{image ?
 							<>
-								<CldImage
+								<Image
 									className="object-cover"
 									fill
-									src={image.public_id}
+									unoptimized
+									src={resolveImageSrc(image.public_id)}
 									alt={image.display_name}
 								/>
 								<Button
 									className="z-50 absolute top-2 right-2 shadow-[0_0_7px_3px_#00000024]"
-									onClick={() =>
-										setImage(null)
-									}>
+									onClick={() => setImage(null)}>
 									X
 								</Button>
 							</>
-						) : !!preview ? (
+						: !!preview ?
 							<>
 								<img
 									src={preview}
@@ -324,22 +316,16 @@ const ImageLoader = ({
 								/>
 								<Button
 									className="z-50 absolute top-2 right-2 shadow-[0_0_10px_2px_#00000024]"
-									onClick={() => (
-										setPreview(null),
-										setFile(null)
-									)}>
+									onClick={() => (setPreview(null), setFile(null))}>
 									X
 								</Button>
 							</>
-						) : (
-							<Button
+						:	<Button
 								className="size-full border-dashed border-2 bg-transparent hover:bg-transparent text-foreground"
-								onClick={() =>
-									fileInput.current?.click()
-								}>
-								Carica l'immagine di copertina
+								onClick={() => fileInput.current?.click()}>
+								Upload cover image
 							</Button>
-						)}
+						}
 					</div>
 				</div>
 			</div>

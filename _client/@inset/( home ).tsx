@@ -3,8 +3,10 @@
 import { ImageLoader } from '@/components/imageLoader';
 import { ServerProps } from '@/app/@inset/home/page';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export default ({ api, images: initImages }: ServerProps) => {
+	const { toast } = useToast();
 	const [images, setImages] = useState<typeof initImages>(initImages ?? []);
 
 	const handleChange = async (file: File, image: (typeof initImages)[0]) => {
@@ -15,12 +17,20 @@ export default ({ api, images: initImages }: ServerProps) => {
 		reader.onload = async () => {
 			const base64 = reader.result as string;
 
-			const uplaoded = await api.uploadImage({
+			// Demo mode: Update local state only
+			const demoImage = {
 				...image,
-				base64,
-			});
+				public_id: `/demo/section-${image.section}-${Date.now()}.jpg`,
+				display_name: `${image.section}-image`,
+			};
 			// @ts-ignore
-			setImages(p => p.map(i => (i.section === image.section ? uplaoded : i)));
+			setImages(p => p.map(i => (i.section === image.section ? demoImage : i)));
+
+			toast({
+				title: '🖼️ Home Image Updated',
+				description: `${image.section.charAt(0).toUpperCase() + image.section.slice(1)} section image changed`,
+				duration: 3000,
+			});
 		};
 		reader.onerror = () => {
 			alert('Error reading file!');
@@ -38,13 +48,7 @@ export default ({ api, images: initImages }: ServerProps) => {
 							<label className="z-30 absolute top-0 left-0 px-4 py-1.5 leading-none text-xs font-bold text-background bg-foreground rounded-br-lg">
 								{image.section}
 							</label>
-							<ImageLoader
-								onFileChange={file =>
-									handleChange(file, image)
-								}
-								className="size-full"
-								image={image}
-							/>
+							<ImageLoader onFileChange={file => handleChange(file, image)} className="size-full" image={image} />
 						</div>
 					))
 					// Aggiorna l'immagine nel database

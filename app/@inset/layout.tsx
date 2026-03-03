@@ -28,10 +28,7 @@ export default function Layout({ children }: PropsWithChildren) {
 						<div className="flex flex-row items-center h-full gap-x-[--p]">
 							<div className="flex flex-row items-center h-full gap-x-[--p] max-lg:hidden">
 								<SidebarTrigger className="justify-start h-full w-fit [&>svg]:text-zinc-400 [&>svg]:!size-5 [&>svg]:!p-0 " />
-								<Separator
-									orientation="vertical"
-									className="h-3/5 bg-white/45"
-								/>
+								<Separator orientation="vertical" className="h-3/5 bg-white/45" />
 							</div>
 
 							<BreadcrumbNav />

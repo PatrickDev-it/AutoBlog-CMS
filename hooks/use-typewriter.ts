@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const typing = async (
-	{ text, callback }: { text: string; callback: (i: number) => any },
-	{ delay, speed }: { delay: number; speed: number }
-) => {
+const typing = async ({ text, callback }: { text: string; callback: (i: number) => any }, { delay, speed }: { delay: number; speed: number }) => {
 	await new Promise(r => setTimeout(r, delay));
 
 	let i = 1;
@@ -14,7 +11,7 @@ const typing = async (
 	}
 };
 
-export const useTypewriter = (text: string, delay = 0, speed = 35) => {
+export const useTypewriter = (text: string, delay = 0, speed = 2) => {
 	const [displayText, setDisplayText] = useState('');
 
 	useEffect(() => {

@@ -11,19 +11,23 @@ import { IoIosArrowDown } from 'react-icons/io';
 import Chat from '@/app/@inset/_components/chat';
 
 import sendMessage from '@/actions/send-message';
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue,
-} from '@/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/ui/select';
 import { Separator } from '@/ui/separator';
 
 export const InnerChatTrigger = ({ Icon }: { Icon?: any }) => (
-	<SheetTrigger>{Icon ? Icon : <IoMdChatbubbles className="size-5" />}</SheetTrigger>
+	<SheetTrigger className="relative group flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-foreground/5 transition-colors duration-200">
+		{/* Pulsing AI Badge */}
+		<div className="flex items-center gap-1.5">
+			<span className="relative flex items-center justify-center">
+				<span className="absolute inline-flex h-2 w-2 rounded-full bg-green-500 opacity-75 animate-ping"></span>
+				<span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+			</span>
+			<span className="text-xs font-bold tracking-wider text-foreground/70 group-hover:text-foreground/90 transition-colors">AI</span>
+		</div>
+
+		{/* Icon */}
+		{Icon ? Icon : <IoMdChatbubbles className="size-5 text-foreground/60 group-hover:text-foreground/80 transition-colors" />}
+	</SheetTrigger>
 );
 
 export default ({ containerSelector }: { containerSelector: string }) => {
@@ -51,22 +55,14 @@ export default ({ containerSelector }: { containerSelector: string }) => {
 					<SelectContent sideOffset={15}>
 						<SelectGroup>
 							<SelectLabel>Frequent use</SelectLabel>
-							<SelectItem value="gemini-1.5-flash">
-								Gemini 1.5 flash
-							</SelectItem>
-							<SelectItem value="gemini-1.5-flash-8b">
-								Gemini 1.5 flash 8b
-							</SelectItem>
+							<SelectItem value="gemini-1.5-flash">Gemini 1.5 flash</SelectItem>
+							<SelectItem value="gemini-1.5-flash-8b">Gemini 1.5 flash 8b</SelectItem>
 						</SelectGroup>
 						<Separator />
 						<SelectGroup>
 							<SelectLabel>High reasoning</SelectLabel>
-							<SelectItem value="gemini-1.5-pro">
-								Gemini 1.5 pro
-							</SelectItem>
-							<SelectItem value="gemini-2.0-flash">
-								Gemini 2 flash
-							</SelectItem>
+							<SelectItem value="gemini-1.5-pro">Gemini 1.5 pro</SelectItem>
+							<SelectItem value="gemini-2.0-flash">Gemini 2 flash</SelectItem>
 						</SelectGroup>
 					</SelectContent>
 				</Select>
@@ -80,7 +76,7 @@ export default ({ containerSelector }: { containerSelector: string }) => {
 						history
 							.slice(-1)[0]
 							.parts.map(p => p.text)
-							.join('\n')
+							.join('\n'),
 					)
 				}
 			/>

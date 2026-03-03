@@ -1,9 +1,19 @@
 'use client';
 import { useRef, useState } from 'react';
-import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
 
 import { Input } from '@/ui/input';
 import { Button } from '@/ui/button';
+
+const DEMO_PLACEHOLDER =
+	'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720"><rect width="100%" height="100%" fill="%23111827"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23ffffff" font-family="Arial" font-size="28">Demo Image</text></svg>';
+
+const resolveImageSrc = (value?: string) => {
+	if (!value) return DEMO_PLACEHOLDER;
+	if (value.startsWith('http://') || value.startsWith('https://') || value.startsWith('/') || value.startsWith('data:')) return value;
+
+	return DEMO_PLACEHOLDER;
+};
 
 export const ImageLoader = ({
 	image: cdlImage,
@@ -15,25 +25,23 @@ export const ImageLoader = ({
 }) => {
 	const fileInput = useRef<HTMLInputElement>(null);
 
-	const [image, setImage] = useState<{ display_name: string; public_id: string } | null>(
-		cdlImage
-	);
-	const [preview, setPreview] = useState<string | null>(null); // Stato per l'anteprima
+	const [image, setImage] = useState<{ display_name: string; public_id: string } | null>(cdlImage);
+	const [preview, setPreview] = useState<string | null>(null); // Preview state
 
 	const handleFileChange = () => {
 		const file = fileInput.current?.files?.[0];
 
 		if (!file) return;
-		// Controlla che il file sia un'immagine supportata
+		// Validate the selected file format
 		const validFormats = ['image/webp', 'image/png', 'image/jpeg', 'image/jpg'];
 		if (!validFormats.includes(file.type)) {
-			alert('Formato file non supportato. Usa WebP, PNG, JPEG o JPG.');
+			alert('Unsupported file format. Use WebP, PNG, JPEG, or JPG.');
 			setPreview(null);
 
 			return;
 		}
 
-		// Crea un'anteprima temporanea
+		// Create a temporary preview
 		setPreview(URL.createObjectURL(file));
 		onFileChange(file);
 		setImage(null);
@@ -51,7 +59,7 @@ export const ImageLoader = ({
 				className="hidden"
 			/>
 			<div className="relative flex justify-center items-center aspect-video size-full rounded-lg overflow-hidden">
-				{!!preview ? (
+				{!!preview ?
 					<>
 						<img
 							src={preview}
@@ -64,12 +72,13 @@ export const ImageLoader = ({
 							X
 						</Button>
 					</>
-				) : image?.public_id ? (
+				: image?.public_id ?
 					<>
-						<CldImage
+						<Image
 							className="object-cover rounded-lg"
 							fill
-							src={image.public_id}
+							unoptimized
+							src={resolveImageSrc(image.public_id)}
 							alt={image.display_name}
 						/>
 						<Button
@@ -78,13 +87,12 @@ export const ImageLoader = ({
 							X
 						</Button>
 					</>
-				) : (
-					<Button
+				:	<Button
 						className="size-full border-foreground/25 border-dashed border-2 bg-transparent hover:bg-transparent text-foreground"
 						onClick={() => fileInput.current?.click()}>
-						Carica l'immagine di copertina
+						Upload cover image
 					</Button>
-				)}
+				}
 			</div>
 		</div>
 	);

@@ -13,6 +13,7 @@ import type { ServerProps } from '@/app/@sidebar/[section]/page';
 import { useParams } from 'next/navigation';
 import type { Group as GroupType } from '@/types/group';
 import { Post } from '@/types/post';
+import { useToast } from '@/hooks/use-toast';
 
 export const Main = ({ text }: { text: string }) => (
 	<div className="flex size-full ">
@@ -23,6 +24,7 @@ export const Main = ({ text }: { text: string }) => (
 export const Sidebar = ({ api, groups: initGroups, section }: ServerProps) => {
 	const params = useParams();
 	const [postId] = [params.id].flat();
+	const { toast } = useToast();
 
 	const [groups, setGroups] = useState<GroupType<Post>[]>(initGroups as any);
 	const [addGroup, setAddGroup] = useState<string | null>(null);
@@ -52,6 +54,11 @@ export const Sidebar = ({ api, groups: initGroups, section }: ServerProps) => {
 						await api.createGroup(name);
 
 						setGroups(await api.getGroups());
+						toast({
+							title: '✨ New Group Created',
+							description: `"${name}" added to ${section}`,
+							duration: 3000,
+						});
 					}}
 				/>
 			)}
@@ -67,33 +74,53 @@ export const Sidebar = ({ api, groups: initGroups, section }: ServerProps) => {
 							});
 
 							setGroups(await api.getGroups());
+							toast({
+								title: '📂 Subgroup Created',
+								description: `"${subGroupName}" in ${group.name}`,
+								duration: 3000,
+							});
 						}}
 						onRename={async ({ id, name }) => {
 							await api.renameGroup({ id, name });
 							setGroups(await api.getGroups());
+							toast({
+								title: '✏️ Group Renamed',
+								description: `Updated to "${name}"`,
+								duration: 2500,
+							});
 						}}
 						onDelete={async id => {
 							await api.deleteGroup(id);
 							setGroups(await api.getGroups());
+							toast({
+								title: '🗑️ Group Deleted',
+								description: 'Group removed permanently',
+								duration: 2500,
+							});
 						}}>
 						{group?.sub_groups?.length > 0 &&
 							group.sub_groups.map(subGroup => (
 								<SubGroup
 									key={subGroup.id}
-									defaultOpen={
-										!!params.id &&
-										subGroup.items.some(
-											item => item.id === postId
-										)
-									}
+									defaultOpen={!!params.id && subGroup.items.some(item => item.id === postId)}
 									{...subGroup}
 									onDelete={async subGroupId => {
 										await api.deleteSubGroup(subGroupId);
 										setGroups(await api.getGroups());
+										toast({
+											title: '🗑️ Subgroup Deleted',
+											description: 'Subgroup removed permanently',
+											duration: 2500,
+										});
 									}}
 									onRename={async sub_group => {
 										await api.renameSubGroup(sub_group);
 										setGroups(await api.getGroups());
+										toast({
+											title: '✏️ Subgroup Renamed',
+											description: `Updated to "${sub_group.name}"`,
+											duration: 2500,
+										});
 									}}
 									onCreateNewPost={async name => {
 										await api.createPost({
@@ -102,6 +129,11 @@ export const Sidebar = ({ api, groups: initGroups, section }: ServerProps) => {
 											name,
 										});
 										setGroups(await api.getGroups());
+										toast({
+											title: '📝 New Post Created',
+											description: `"${name}" ready for editing`,
+											duration: 3000,
+										});
 									}}>
 									{subGroup?.items?.length > 0 &&
 										subGroup.items.map(item => (
@@ -109,25 +141,27 @@ export const Sidebar = ({ api, groups: initGroups, section }: ServerProps) => {
 												key={item.id}
 												{...item}
 												section={section}
-												selected={
-													item.id === postId
-												}
+												selected={item.id === postId}
 												onRename={async name => {
 													await api.renamePost({
 														id: item.id,
 														name,
 													});
-													setGroups(
-														await api.getGroups()
-													);
+													setGroups(await api.getGroups());
+													toast({
+														title: '✏️ Post Renamed',
+														description: `Title updated to "${name}"`,
+														duration: 2500,
+													});
 												}}
 												onDelete={async id => {
-													await api.deletePost(
-														id
-													);
-													setGroups(
-														await api.getGroups()
-													);
+													await api.deletePost(id);
+													setGroups(await api.getGroups());
+													toast({
+														title: '🗑️ Post Deleted',
+														description: 'Post removed permanently',
+														duration: 2500,
+													});
 												}}
 											/>
 										))}

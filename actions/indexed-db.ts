@@ -3,7 +3,7 @@
 export const openDatabase = (dbName: string, storeName: string, version = 1): Promise<IDBDatabase> => {
 	return new Promise((resolve, reject) => {
 		if (typeof window === 'undefined') {
-			reject('IndexedDB non è supportato lato server.');
+			reject('IndexedDB is not supported in server-side environments.');
 			return;
 		}
 
@@ -14,7 +14,7 @@ export const openDatabase = (dbName: string, storeName: string, version = 1): Pr
 			// @ts-ignore
 			const db = (event.target as IDBOpenDBRequest).result;
 
-			// Crea un oggetto di memorizzazione (store) se non esiste
+			// Creates the object store if it does not exist
 			if (!db.objectStoreNames.contains(storeName)) {
 				db.createObjectStore(storeName, { autoIncrement: true });
 			}
@@ -27,7 +27,7 @@ export const openDatabase = (dbName: string, storeName: string, version = 1): Pr
 
 		request.onerror = event => {
 			// @ts-ignore
-			reject(`Errore nell'apertura del database: ${event.target.error}`);
+			reject(`Database open error: ${event.target.error}`);
 		};
 	});
 };
@@ -47,7 +47,7 @@ export const putItem = async (dbName: string, storeName: string, key: string, it
 
 	request.onerror = event => {
 		// @ts-ignore
-		throw new Error(`Errore nell'aggiunta dell'elemento: ${event.target.error}`);
+		throw new Error(`Item write error: ${event.target.error}`);
 	};
 };
 
@@ -67,7 +67,7 @@ export const getItem = async (dbName: string, storeName: string, itemKey: string
 
 		request.onerror = event => {
 			// @ts-ignore
-			reject(`Errore nel recupero degli elementi: ${event.target.error}`);
+			reject(`Item read error: ${event.target.error}`);
 		};
 	});
 };
@@ -88,7 +88,7 @@ export const deleteItem = async (dbName: string, storeName: string, itemKey: str
 
 		request.onerror = event => {
 			// @ts-ignore
-			reject(`Errore nel recupero degli elementi: ${event.target.error}`);
+			reject(`Item delete error: ${event.target.error}`);
 		};
 	});
 };

@@ -10,10 +10,7 @@ type ThemeContext = [Theme, Dispatch<SetStateAction<Theme>>];
 
 const themeContext = createContext<ThemeContext>(['dark', () => {}]);
 
-export const ThemeProvider = ({
-	children,
-	defaultValue,
-}: PropsWithChildren & { defaultValue?: Theme }) => {
+export const ThemeProvider = ({ children, defaultValue }: PropsWithChildren & { defaultValue?: Theme }) => {
 	const [theme, setTheme] = useState<Theme>(defaultValue ?? 'dark');
 
 	useEffect(() => {
@@ -28,7 +25,7 @@ export const useTheme = () => {
 	const context = useContext(themeContext);
 
 	if (!context) {
-		throw new Error('useTheme must be used within a SocketProvider.');
+		throw new Error('useTheme must be used within a ThemeProvider.');
 	}
 	return context;
 };
