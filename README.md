@@ -1,4 +1,4 @@
-# Autoblog CMS - AI-Powered Blog Management
+# Autoblog CMS + Gemini AI Assistant
 
 A modern, intelligent blog content management system built with Next.js and Tailwind CSS. Features AI-assisted content creation, intuitive
 hierarchical organization, professional editorial workflows, and beautiful responsive design.
