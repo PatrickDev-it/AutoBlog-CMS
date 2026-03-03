@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+z
+
+           * {
+                      -webkit-touch-callout: none; /* Safari */
+                      -webkit-user-select: none; /* Chrome */     
+                      -moz-user-select: none; /* Firefox */
+                      -ms-user-select: none; /* Internet Explorer/Edge */
+                      user-select: none; 
+                      
+                      /* disable all kind of selection text */
+		@apply border-border select-none;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
+          
+}
+
+
+
+
+@keyframes fade-in {
+	0% {
+		transform: translateX(50px);
+	}
+
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes backToPosition {
+	to {
+		transform: translate(0);
+		opacity: 1;
+	}
+}
