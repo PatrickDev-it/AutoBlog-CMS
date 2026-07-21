@@ -42,3 +42,15 @@ CMS blog.code-workspace
 .sinapsi/graph.json
 .sinapsi/.watcher
 .sinapsi/journal
+
+# environment and durable local state
+.env
+.env.*
+!.env.example
+data/
+
+# test and quality artifacts
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/

@@ -2,33 +2,35 @@
 
 ## Current state
 
-- Branch `feat/rfc-editorial-cms` starts at current `origin/main` (`485f037`).
-- Pre-existing untracked RFC/Sinapsi/assistant files and the `.gitignore` edit are preserved.
-- RFC 001 and ADR 001 accept Next.js 16, Drizzle/libSQL and Better Auth for one modular monolith.
-- Baseline and the P-01–P-18 ledger are in `docs/engineering`.
-- No application boundary has been changed yet.
+- Branch `feat/rfc-editorial-cms`; foundation commit is `83c6689`.
+- Phase 0 containment is implemented and awaiting its atomic commit.
+- The active routes are a responsive recruiter landing page and a clearly labeled sign-in
+  placeholder. All legacy simulator/provider/parallel-route code is deleted.
+- RFC 001/ADR 001 require Next.js 16, Drizzle/libSQL, Better Auth and one modular monolith.
 
-## Measured baseline
+## Verified gates
 
-- Frozen install fails; typecheck has 42 errors; source lint has 93 errors and 39 warnings.
-- Build passes only because validation is skipped.
-- Runtime audit: 48 findings, including 2 critical and 22 high.
-- No tests or CI workflow exist.
-- Historical commit `8f83cec` contains non-empty MongoDB, Cloudinary and Gemini environment values.
-  Values must never be printed; provider owners must rotate/revoke them before release.
+- `bun install --frozen-lockfile`: pass on Bun 1.3.12.
+- `bun run typecheck`: pass with strict TypeScript 6.0.3.
+- `bun run lint`: pass with zero warnings.
+- `bun run test` and integration harness: pass.
+- `bun run build`: pass with Next.js 16.2.11 and no validation bypass.
+- `bun run audit`: zero vulnerabilities after constrained transitive resolutions.
+- `bun run security:secrets`: current tree passes.
+- `bun run test:e2e`: recruiter entry and marketing axe test pass in Chromium.
 
-## Decisions and constraints
+## Security and external risk
 
-- One Drizzle repository runs against local `file:` and remote libSQL URLs.
-- Better Auth database sessions authenticate bounded seeded demo accounts.
-- Workspace membership is database-derived; URL/payload workspace identity is never trusted.
-- Revisions are immutable, writes are version-conditional, and durable jobs are idempotent.
-- Preserve the dark editorial identity while replacing unreachable legacy architecture.
-- Do not touch Privacy, Ignoryx or unrelated repositories; do not rewrite history.
+- `.env.local` is removed and ignored; `.env.example` contains names/placeholders only.
+- Commit `8f83cec` contains non-empty historical MongoDB, Cloudinary and Gemini values. Never print
+  them. Account owners must rotate/revoke them before release; history will not be rewritten.
+- GitHub security CI deliberately scans full history and may remain red until that rotation is
+  completed or a reviewed post-rotation baseline is accepted.
 
 ## Next coherent patch
 
-Phase 0: remove tracked `.env.local`, add `.env.example`, upgrade/pin dependencies and lockfile,
-replace bypassed config, establish strict scripts and independent CI/security jobs, and remove or
-isolate legacy code until frozen install, audit, typecheck, lint and build pass. Finish every patch
-with session, handoff and summary updates in that order.
+Phase 1: define Drizzle schema/migration for Better Auth, workspaces, memberships, posts, revisions,
+publications, media, jobs, audit and AI usage. Add validated env/errors, database bootstrap/seed,
+Better Auth sessions, the full role permission matrix and protected list/create/edit adapters.
+Acceptance requires persistence across restart plus anonymous, denied-role and cross-workspace
+integration tests. Finish with Sinapsi session, handoff and summary in that order.

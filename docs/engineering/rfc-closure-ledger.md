@@ -6,8 +6,8 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | ID | Required implementation | Primary evidence | Status |
 | --- | --- | --- | --- |
 | P-01 | One durable application/repository path | integration persistence + restart tests | Open |
-| P-02 | Strict type/lint/build gates | independent CI jobs | In progress |
-| P-03 | Reproducible, patched dependencies | frozen install + runtime audit | In progress |
+| P-02 | Strict type/lint/build gates | independent CI jobs | Verified |
+| P-03 | Reproducible, patched dependencies | frozen install + runtime audit | Verified |
 | P-04 | Real revocable sessions on every protected adapter | anonymous/session route tests | Open |
 | P-05 | Five-role application policy | complete positive/negative matrix tests | Open |
 | P-06 | Canonical validated workspace domain schemas | schema/validation tests | Open |
@@ -17,7 +17,7 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | P-10 | Bounded verified media with safe replacement | abuse + failure compensation tests | Open |
 | P-11 | Authorized, metered, bounded AI command | abuse/timeout/malformed tests | Open |
 | P-12 | Explicit mock/configured adapter contract | shared adapter contract tests | Open |
-| P-13 | Domain ownership; obsolete paths removed | type/lint/dead-route inspection | Open |
+| P-13 | Domain ownership; obsolete paths removed | type/lint/dead-route inspection | In progress |
 | P-14 | Tested accessibility targets | axe + keyboard/focus evidence | Open |
 | P-15 | Semantic caching and measured budgets | Lighthouse + bundle evidence | Open |
 | P-16 | Stable non-leaking public errors | API contract tests | Open |

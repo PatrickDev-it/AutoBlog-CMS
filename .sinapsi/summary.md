@@ -11,63 +11,28 @@ _client/
   @inset/
   @sidebar/
 actions/
-  check-user.ts
-  firebase.ts
-  indexed-db.ts
-  send-message.ts
 app/
   @inset/
   @sidebar/
   api/
-  default.tsx
+  sign-in/
   favicon.ico
   globals.css
   icon.png
   layout.tsx
-  template.tsx
+  page.tsx
 components/
   chat/
   groups/
   webapp/
-  BreadCrumbNav.tsx
-  Copy.tsx
-  add-member-dialog.tsx
-  check-progress.tsx
-  copy-popup.tsx
-  data-picker.tsx
-  env-switcher.tsx
-  formats.tsx
-  imageLoader.tsx
-  loader.tsx
-  members-page.tsx
-  nav-main.tsx
-  nav-projects.tsx
-  nav-secondary.tsx
-  nav-user.tsx
-  shareable-card.tsx
-  theme-switcher.tsx
-  typewriter.tsx
 config/
   css/
-  _export.ts
 constants/
-  post-init-template.ts
-  sections.ts
 docs/
   engineering/
 hooks/
-  use-longPress.ts
-  use-mobile.tsx
-  use-tablet.tsx
-  use-theme.tsx
-  use-toast.ts
-  use-typewriter.ts
 lib/
-  cloudinary.ts
-  db.ts
-  gemini.ts
 plugins/
-  dynamic-size.ts
 public/
   auth/
   demo/
@@ -79,55 +44,26 @@ public/
   logo.png
   logo.svg
   window.svg
+scripts/
+  security/
+src/
+  platform/
+test-results/
+  .last-run.json
+tests/
+  accessibility/
+  e2e/
+  unit/
 types/
-  group.d.ts
-  post.d.ts
-  sidebar.d.ts
-  user.d.ts
 ui/
-  alert-dialog.tsx
-  avatar.tsx
-  breadcrumb.tsx
-  button.tsx
-  calendar.tsx
-  card.tsx
-  checkbox.tsx
-  collapsible.tsx
-  command.tsx
-  context-menu.tsx
-  dialog.tsx
-  drawer.tsx
-  dropdown-menu.tsx
-  input.tsx
-  label.tsx
-  popover.tsx
-  radio-group.tsx
-  scroll-area.tsx
-  select.tsx
-  separator.tsx
-  sheet.tsx
-  sidebar.tsx
-  skeleton.tsx
-  switch.tsx
-  … 6 more
 utils/
-  _try.ts
-  api-fetch.ts
-  objectId_check.ts
-  revalidate.ts
-  shadcn.ts
-  switch-theme.ts
-.env.local
+.env.example
 .gitignore
 .mcp.json
 AGENTS.md
 CMS blog.code-workspace
 FEATURES.md
-README.md
-RFC.md
-auto_cleaner_restore.bat
-bun.lock
-… 10 more
+… 14 more
 ```
 <!-- sinapsi:end -->
 
@@ -142,6 +78,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      11th; the full history is in session.md and, once archived, in archive/. -->
 
 - 2026-07-22T01:34:41+02:00 — Reproduced the baseline and accepted the libSQL/Better Auth modular-monolith foundation.
+- 2026-07-22T01:47:42+02:00 — Closed Phase 0 with strict green gates, zero audit findings and legacy-path deletion.
 
 ## Where things stand
 
@@ -149,10 +86,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- `feat/rfc-editorial-cms` is based on current `origin/main`; pre-existing user work is preserved.
-- RFC 001/ADR 001 select Next.js 16, Drizzle/libSQL and Better Auth for one modular monolith.
-- Baseline: frozen install fails; 42 type errors; 93 lint errors/39 warnings; bypassed build.
-- Runtime audit has 48 findings (2 critical, 22 high); no tests or CI exist.
-- Historical provider values exist in commit `8f83cec`; never print them and require rotation.
-- P-01–P-18 closure evidence is tracked in `docs/engineering/rfc-closure-ledger.md`.
-- Next: complete Phase 0 dependency, secret, strict-quality and CI containment gates.
+- Phase 0 is complete on `feat/rfc-editorial-cms`; all unsafe legacy routes/simulators are deleted.
+- Frozen install, strict typecheck, zero-warning lint, unit, build, audit, E2E and axe pass locally.
+- Next.js 16.2.11/React 19.2.8 are pinned; runtime audit reports zero vulnerabilities.
+- `.env.local` is removed; current-tree secret scanning passes and pinned independent CI jobs exist.
+- Historical provider values in `8f83cec` still require rotation; never print them or rewrite history.
+- `/` is the recruiter landing page; `/sign-in` is explicitly a Phase 1 placeholder.
+- Next: Drizzle schema/migrations, Better Auth, workspace RBAC and durable create/edit persistence.
