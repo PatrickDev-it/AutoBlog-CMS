@@ -1,6 +1,6 @@
 # RFC — AI-Assisted Editorial CMS
 
-- **Status:** Proposed
+- **Status:** Accepted — implementation authorized 2026-07-22
 - **Scope:** conversion of the current AutoBlog dashboard into a verifiable portfolio product
 - **Audience:** implementation agents, frontend/full-stack reviewers, product and security reviewers
 - **Decision horizon:** one stable public demo and one production-shaped application core

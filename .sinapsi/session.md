@@ -258,3 +258,19 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   `.performance/`; paths, seven-day retention, missing-file failure and all budgets are unchanged.
 - Scope: workflow-only correction. No application, test assertion, dependency or report content
   changed. Terminal status remains `EXTERNALLY BLOCKED` for the documented external release gates.
+
+## 2026-07-22T11:39:38+02:00 — Restore the executable history-scan gate
+
+- Goal: remove a false-red security result before CTO-facing portfolio review without weakening the
+  required Git-history scan.
+- Evidence: run `29885890517` passed the runtime dependency audit and current-tree secret scan, then
+  TruffleHog exited before scanning because `--fail` was supplied by both the pinned action and
+  `extra_args`.
+- Fix: retained the pinned TruffleHog action and `verified,unknown` result policy while removing only
+  duplicate action-owned `--fail` and `--no-update` arguments.
+- Governance: marked the implemented root RFC Accepted; no application boundary, dependency, test,
+  credential, protection rule or external release gate changed.
+- Local verification: runtime audit and current-tree secret scan pass; remote history-scan rerun is
+  pending on draft PR #3.
+- Terminal status remains `EXTERNALLY BLOCKED`: historical provider rotation, durable public runtime,
+  scheduler, anonymous demo, merge and release remain owner-controlled gates.
