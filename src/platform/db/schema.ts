@@ -176,14 +176,17 @@ export const mediaAssets = sqliteTable('media_assets', {
 	createdBy: text('created_by').notNull().references(() => users.id, { onDelete: 'restrict' }),
 	createdAt: timestamp('created_at').notNull(),
 	updatedAt: timestamp('updated_at').notNull(),
+	replacesAssetId: text('replaces_asset_id'),
 }, (table) => [
 	index('media_workspace_post_idx').on(table.workspaceId, table.postId),
+	uniqueIndex('media_one_active_per_post').on(table.workspaceId, table.postId).where(sql`${table.status} = 'active' and ${table.postId} is not null`),
 	check('media_byte_size_positive', sql`${table.byteSize} > 0`),
 ]);
 
-export const mediaBlobs = sqliteTable('media_blobs', {
-	assetId: text('asset_id').primaryKey().references(() => mediaAssets.id, { onDelete: 'cascade' }),
+export const mediaObjects = sqliteTable('media_objects', {
+	storageKey: text('storage_key').primaryKey(),
 	data: blob('data', { mode: 'buffer' }).notNull(),
+	createdAt: timestamp('created_at').notNull(),
 });
 
 export const auditEvents = sqliteTable('audit_events', {
@@ -238,6 +241,18 @@ export const rateLimits = sqliteTable('rate_limits', {
 	index('rate_limit_expiry_idx').on(table.expiresAt),
 ]);
 
+export const aiQuotaWindows = sqliteTable('ai_quota_windows', {
+	workspaceId: text('workspace_id').notNull().references(() => workspaces.id, { onDelete: 'cascade' }),
+	windowStartedAt: timestamp('window_started_at').notNull(),
+	reservedCharacters: integer('reserved_characters').notNull().default(0),
+	usedCharacters: integer('used_characters').notNull().default(0),
+	updatedAt: timestamp('updated_at').notNull(),
+}, (table) => [
+	primaryKey({ columns: [table.workspaceId, table.windowStartedAt] }),
+	check('ai_quota_reserved_nonnegative', sql`${table.reservedCharacters} >= 0`),
+	check('ai_quota_used_nonnegative', sql`${table.usedCharacters} >= 0`),
+]);
+
 export const schema = {
 	users,
 	sessions,
@@ -250,9 +265,10 @@ export const schema = {
 	revisions,
 	publications,
 	mediaAssets,
-	mediaBlobs,
+	mediaObjects,
 	auditEvents,
 	aiUsage,
 	jobs,
 	rateLimits,
+	aiQuotaWindows,
 };

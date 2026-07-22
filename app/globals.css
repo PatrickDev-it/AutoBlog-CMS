@@ -169,6 +169,19 @@ h1 { margin: 18px 0 22px; max-width: 800px; font-size: clamp(3rem, 7vw, 6.8rem);
 .workflow-actions button, .history-toggle, .revision-history button, .preview-link { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--text); padding: 0 14px; font-size: .76rem; font-weight: 750; text-decoration: none; cursor: pointer; }
 .workflow-actions button:first-of-type { border-color: rgb(200 255 90 / 45%); }
 .workflow-actions button:disabled, .revision-history button:disabled { cursor: not-allowed; opacity: .45; }
+.ai-panel { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: end; margin-top: 28px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(145deg, rgb(200 255 90 / 4%), var(--surface)); padding: 20px; }
+.ai-panel h2 { margin: 7px 0 0; font-size: 1.35rem; }
+.ai-panel > label { grid-column: 1 / -1; display: grid; gap: 7px; color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.ai-panel textarea { min-height: 72px; border-color: var(--line); background: #0c0f12; font-size: .88rem; }
+.ai-panel > button, .suggestion-preview button, .media-form button, .danger-button { min-height: 42px; border: 1px solid rgb(200 255 90 / 45%); border-radius: 999px; background: var(--accent); color: var(--accent-ink); padding: 0 15px; font-size: .78rem; font-weight: 800; cursor: pointer; }
+.ai-panel button:disabled, .media-panel button:disabled { cursor: not-allowed; opacity: .45; }
+.ai-panel > .panel-message { margin: 0; text-align: right; }
+.suggestion-preview { grid-column: 1 / -1; min-width: 0; border-top: 1px solid var(--line); padding-top: 18px; }
+.suggestion-preview > span, .suggestion-preview small { color: var(--muted); font-size: .68rem; }
+.suggestion-preview h3 { margin: 12px 0 6px; font-size: 1.4rem; }
+.suggestion-preview pre { max-height: 260px; overflow: auto; white-space: pre-wrap; border-radius: 12px; background: #0c0f12; color: var(--muted); padding: 12px; }
+.suggestion-preview button { display: block; margin-top: 16px; }
+.panel-message, .panel-empty { color: var(--muted); font-size: .72rem; line-height: 1.5; }
 .editor-message { color: var(--muted); font-size: .82rem; }
 .editor-message.conflict, .editor-message.error { color: var(--danger); }
 .conflict-actions { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -195,6 +208,16 @@ h1 { margin: 18px 0 22px; max-width: 800px; font-size: clamp(3rem, 7vw, 6.8rem);
 .history-comparison { margin-top: 12px; border: 1px solid var(--line); border-radius: 12px; padding: 11px; }
 .history-comparison h3 { margin: 0 0 9px; font-size: .8rem; }
 .history-comparison pre { max-height: 220px; overflow: auto; white-space: pre-wrap; color: var(--muted); font-size: .7rem; }
+.media-panel { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px; }
+.media-panel h3 { margin: 8px 0 14px; }
+.asset-card { display: grid; gap: 6px; border-radius: 12px; background: var(--surface); padding: 12px; }
+.asset-card strong { overflow: hidden; text-overflow: ellipsis; }
+.asset-card span { color: var(--muted); font-size: .68rem; }
+.media-form { display: grid; gap: 10px; margin-top: 12px; }
+.media-form label { display: grid; gap: 6px; color: var(--muted); font-size: .68rem; }
+.media-form input { width: 100%; min-height: 38px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--text); padding: 7px; }
+.media-form input[type="file"] { font-size: .66rem; }
+.danger-button { width: 100%; margin-top: 8px; border-color: rgb(255 133 127 / 45%); background: transparent; color: var(--danger); }
 
 .public-article { width: min(920px, calc(100% - 32px)); margin: 0 auto; padding-bottom: 100px; }
 .public-article nav { display: flex; align-items: center; justify-content: space-between; min-height: 76px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
@@ -235,6 +258,8 @@ h1 { margin: 18px 0 22px; max-width: 800px; font-size: clamp(3rem, 7vw, 6.8rem);
 	.editor-form { padding: 24px 14px; }
 	.workflow-panel { align-items: stretch; flex-direction: column; }
 	.workflow-actions { justify-content: flex-start; }
+	.ai-panel { grid-template-columns: 1fr; }
+	.ai-panel > .panel-message { text-align: left; }
 	.title-input { min-height: 96px; }
 	.compare-panel > div { grid-template-columns: 1fr; }
 }

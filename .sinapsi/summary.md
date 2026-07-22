@@ -36,14 +36,17 @@ data/
   e2e.db
 docs/
   engineering/
+  ai-data-handling.md
   api.md
   architecture.md
   authentication-rbac.md
   data-model.md
   editorial-workflow.md
+  media-security.md
 drizzle/
   0000_editorial_core.sql
   0001_auth_rate_limit.sql
+  0002_media_ai_governance.sql
 hooks/
 lib/
 plugins/
@@ -94,6 +97,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T03:07:40+02:00 — Delivered verified compensating media and governed explicit AI suggestions.
 - 2026-07-22T02:39:02+02:00 — Delivered versioned review, restore, durable scheduling and immutable public publication.
 - 2026-07-22T02:13:25+02:00 — Delivered database-backed sessions, RBAC, durable posts and conflict-safe autosave.
 - 2026-07-22T01:47:42+02:00 — Closed Phase 0 with strict green gates, zero audit findings and legacy-path deletion.
@@ -105,10 +109,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- Phases 0–2 are complete on `feat/rfc-editorial-cms`; the seven-state workflow is enforced server-side.
-- Revision history, compare, restore-as-new, serialized autosave and surfaced HTTP 409 conflicts are live.
-- Direct and scheduled publication pin immutable revisions; leased jobs retry three times and execute idempotently.
-- The full Author→Reviewer→Editor→public-preview path passes deterministic browser coverage.
-- Frozen install, typecheck/lint, 11 unit, 10 integration, build, zero audit findings and 7 E2E/axe tests pass.
+- Phases 0–3 are complete: editorial, publication, verified media and AI share authenticated workspace boundaries.
+- Media is stream-capped/decoded; atomic replacement plus leased cleanup preserves the active object on failure.
+- Mock/Gemini AI share a validated contract, durable quotas/rates, bounded timeout and explicit Apply workflow.
+- Migrations `0000`–`0002` reproduce the complete durable core and provider governance state.
+- Frozen install, typecheck/lint, 17 unit, 21 integration, build, zero audit findings and 10 E2E/axe tests pass.
 - Historical provider values in `8f83cec` still require owner rotation; never print or rewrite them.
-- Next: bounded media replacement/compensation and authorized metered AI suggestions.
+- Next: bounded demo reset, deeper accessibility, performance budgets, visuals and recruiter guidance.

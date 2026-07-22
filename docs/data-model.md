@@ -14,7 +14,7 @@ erDiagram
   POST ||--o{ PUBLICATION : publishes
   REVISION ||--o{ PUBLICATION : pins
   WORKSPACE ||--o{ MEDIA_ASSET : owns
-  MEDIA_ASSET ||--|| MEDIA_BLOB : stores
+  MEDIA_ASSET }o--|| MEDIA_OBJECT : references
   WORKSPACE ||--o{ AUDIT_EVENT : records
   WORKSPACE ||--o{ AI_USAGE : meters
   WORKSPACE ||--o{ JOB : schedules
@@ -30,6 +30,8 @@ erDiagram
 - Scheduled publications and jobs are inserted in one transaction. The payload pins the immutable
   revision, and conditional 30-second leases support recovery without duplicate publication.
 - Audit events are append-only; a database trigger rejects updates.
+- Migration `0002` replaces the coupled media blob table with opaque `media_objects`, constrains one
+  active asset per post and adds transactional monthly AI quota windows.
 
 Migrations are checksum-verified. Changing an applied SQL file fails with
 `MIGRATION_CHECKSUM_MISMATCH`; schema evolution requires a new numbered file.

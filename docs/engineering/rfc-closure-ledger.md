@@ -14,9 +14,9 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | P-07 | Explicit workflow and durable publisher | state machine + duplicate/retry job tests + flagship E2E | Verified |
 | P-08 | Immutable revisions, compare and restore | append-only integration + history/restore E2E | Verified |
 | P-09 | Debounced conditional autosave and conflict UI | concurrent integration + stale-writer E2E | Verified |
-| P-10 | Bounded verified media with safe replacement | abuse + failure compensation tests | Open |
-| P-11 | Authorized, metered, bounded AI command | abuse/timeout/malformed tests | Open |
-| P-12 | Explicit mock/configured adapter contract | shared adapter contract tests | Open |
+| P-10 | Bounded verified media with safe replacement | MIME/size/dimension/isolation + compensation/cleanup + E2E | Verified |
+| P-11 | Authorized, metered, bounded AI command | quota/rate/timeout/anonymous + explicit-Apply E2E | Verified |
+| P-12 | Explicit mock/configured adapter contract | shared mock/Gemini structured-output tests | Verified |
 | P-13 | Domain ownership; obsolete paths removed | type/lint/dead-route inspection | In progress |
 | P-14 | Tested accessibility targets | axe + keyboard/focus evidence | Open |
 | P-15 | Semantic caching and measured budgets | Lighthouse + bundle evidence | Open |

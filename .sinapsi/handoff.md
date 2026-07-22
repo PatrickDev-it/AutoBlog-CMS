@@ -2,32 +2,31 @@
 
 ## Current state
 
-- Branch `feat/rfc-editorial-cms`; foundation `83c6689`, Phase 0 `c6e8caa`, Phase 1 `c6d515e`.
-- Phases 0–2 are implemented. One Drizzle/libSQL repository supports sessions, RBAC, durable posts,
-  immutable revisions, review transitions, conflict-safe autosave and public publication.
-- RFC 002/ADR 002 define the versioned workflow and database-leased scheduled publisher.
-- Product routes include recruiter entry, role sign-in, protected workspace and immutable preview.
+- Branch `feat/rfc-editorial-cms`; Phase commits: `c6e8caa`, `c6d515e`, `ecfd1dc`.
+- Phases 0–3 are implemented. Authenticated workspace commands now cover durable editorial,
+  publication, verified media and explicit governed AI suggestions.
+- RFC/ADR 001–003 define the accepted architecture, workflow and provider boundaries.
+- Migrations `0000`–`0002` reproduce schema, auth limits, media storage and AI quota reservations.
 
 ## Verified gates
 
-- `bun install --frozen-lockfile`, strict typecheck and zero-warning lint pass.
-- Unit: 4 files / 11 tests; integration: 3 files / 10 tests.
-- Production build passes on Next.js 16.2.11; runtime audit reports zero vulnerabilities.
-- E2E/axe: 7 deterministic Chromium tests pass in one worker, including the full multi-role flow,
-  restore and stale autosave conflict.
-- Scheduled job retry, lease recovery and duplicate execution are integration-tested.
+- Frozen install, strict typecheck, zero-warning lint, production build and current-tree secret scan.
+- Unit: 6 files / 17 tests; integration: 5 files / 21 tests.
+- E2E/axe: 10 deterministic Chromium tests, including workflow/conflict, media lifecycle, explicit AI
+  Apply, anonymous denial and machine scheduler authentication.
+- Runtime dependency audit: zero vulnerabilities.
 
 ## Security and external risk
 
-- Current tree contains no provider secrets. Historical MongoDB, Cloudinary and Gemini values in
-  `8f83cec` require owner rotation/revocation before release; never print or rewrite them.
-- Deployment still requires externally owned remote libSQL/auth configuration and a one-minute
-  invocation of `jobs:run`.
+- Historical MongoDB, Cloudinary and Gemini values in `8f83cec` require owner rotation/revocation
+  before release; never print or rewrite them.
+- Configured Gemini requires an externally owned key and can incur charges; demo/CI remain mock.
+- Deployment requires remote libSQL/auth/cron secrets and a scheduler invocation.
 
 ## Next coherent patch
 
-Phase 3: implement the RFC 003/ADR 003 media and AI boundaries. Add verified bounded multipart
-images, workspace ownership, safe replacement and cleanup compensation. Add one AI suggestion
-contract with deterministic mock and configured Gemini adapters, quotas/rate limits/timeouts,
-validated output, usage metadata and explicit Apply. Acceptance requires shared adapter contracts,
-abuse/failure tests and authenticated UI flows. Finish Sinapsi in mandatory order.
+Phase 4: add authenticated rate-limited idempotent demo reset, deepen recruiter guidance and seeded
+evidence, add workspace/public axe plus keyboard/focus tests, visual snapshots and measured Lighthouse/
+bundle budgets. Consolidate residual dead roots and validate responsive behavior. Close P-13, P-14,
+P-15 and P-17 only when first-time flagship navigation and product-quality gates pass. Finish Sinapsi
+in mandatory order.

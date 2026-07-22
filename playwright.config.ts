@@ -27,6 +27,7 @@ export default defineConfig({
 			DEMO_ENABLED: 'true',
 			AI_MODE: 'mock',
 			CRON_SECRET: 'e2e-only-distinct-cron-secret-0000000',
+			AUTH_SIGN_IN_RATE_LIMIT: '60',
 		},
 	},
 });

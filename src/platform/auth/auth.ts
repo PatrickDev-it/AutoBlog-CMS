@@ -5,7 +5,7 @@ import { getEnvironment } from '@/src/platform/config/env';
 import { getDatabase, type DatabaseContext } from '@/src/platform/db/client';
 import { accounts, authRateLimits, sessions, users, verifications } from '@/src/platform/db/schema';
 
-export function createAuthentication(database: DatabaseContext, options: Readonly<{ baseURL: string; secret: string }>) {
+export function createAuthentication(database: DatabaseContext, options: Readonly<{ baseURL: string; secret: string; signInRateLimit?: number }>) {
 	return betterAuth({
 		appName: 'AutoBlog CMS',
 		baseURL: options.baseURL,
@@ -32,7 +32,7 @@ export function createAuthentication(database: DatabaseContext, options: Readonl
 			window: 60,
 			max: 60,
 			customRules: {
-				'/sign-in/email': { window: 60, max: 8 },
+				'/sign-in/email': { window: 60, max: options.signInRateLimit ?? 8 },
 			},
 		},
 		advanced: {
@@ -46,4 +46,5 @@ const environment = getEnvironment();
 export const auth = createAuthentication(getDatabase(), {
 	baseURL: environment.NEXT_PUBLIC_APP_URL,
 	secret: environment.BETTER_AUTH_SECRET,
+	signInRateLimit: environment.AUTH_SIGN_IN_RATE_LIMIT,
 });

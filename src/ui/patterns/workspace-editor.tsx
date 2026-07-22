@@ -8,6 +8,8 @@ import { TRANSITION_RULES, type TransitionAction } from '@/src/modules/editorial
 import type { MembershipContext } from '@/src/modules/identity/domain';
 import { can } from '@/src/modules/identity/policy';
 import { authClient } from '@/src/platform/auth/client';
+import { AISuggestionPanel } from '@/src/ui/patterns/ai-suggestion-panel';
+import { MediaPanel } from '@/src/ui/patterns/media-panel';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error' | 'conflict';
 type ApiEnvelope<T> = { data: T } | { error: { code: string; message: string; requestId: string } };
@@ -212,6 +214,7 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 								</span>)}
 							</div>
 						</section>
+						<AISuggestionPanel key={post.id} context={context} post={post} canApply={canEdit} configuredMode={aiMode} onApply={(suggestion) => editPost(suggestion)} />
 						{message ? <p className={`editor-message ${saveState}`} role={saveState === 'error' || saveState === 'conflict' ? 'alert' : 'status'}>{message}</p> : null}
 						{saveState === 'conflict' ? <div className="conflict-actions"><button type="button" onClick={() => void reloadConflict()}>Reload server revision</button><button type="button" onClick={() => void reloadConflict(true)}>Compare versions</button></div> : null}
 						{serverConflict ? <section className="compare-panel" aria-labelledby="compare-heading"><h2 id="compare-heading">Conflict comparison</h2><div><article><h3>Your local draft</h3><pre>{post.content}</pre></article><article><h3>Server revision {serverConflict.version}</h3><pre>{serverConflict.content}</pre></article></div></section> : null}
@@ -221,6 +224,7 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 						<button className="history-toggle" type="button" onClick={() => void loadHistory()}>{historyOpen ? 'Close revision history' : 'Open revision history'}</button>
 						{historyOpen ? <section className="revision-history" aria-label="Revision history">{revisions.map((revision) => <article key={revision.id}><div><strong>v{revision.version}</strong><small>{new Date(revision.createdAt).toLocaleString()}</small></div><p>{revision.title}</p><div><button type="button" onClick={() => setComparison(revision)}>Compare</button>{can(context.role, 'revision.restore', { actorId: context.userId, ownerId: post.authorId }) && ['Draft', 'ChangesRequested', 'Published'].includes(post.state) ? <button type="button" disabled={workflowBusy || hasUnsavedChanges} onClick={() => void restoreRevision(revision.id)}>Restore as new</button> : null}</div></article>)}</section> : null}
 						{comparison ? <section className="history-comparison"><h3>Current v{post.version} vs v{comparison.version}</h3><pre>{comparison.content}</pre></section> : null}
+						<MediaPanel key={`media-${post.id}`} context={context} post={post} />
 						<p>Autosave creates a revision. A stale version returns HTTP 409 and preserves the newer content.</p>
 					</aside>
 				</div> : <div className="empty-state">No posts are available for this workspace.</div>}
