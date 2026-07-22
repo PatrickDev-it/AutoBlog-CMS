@@ -10,7 +10,10 @@ function read(relativePath: string): string {
 
 function localLinks(relativePath: string): string[] {
 	const document = read(relativePath);
-	return [...document.matchAll(/\]\((?!https?:|#)([^)]+)\)/gu)].map((match) => match[1].split('#')[0]);
+	return [...document.matchAll(/\]\((?!https?:|#)([^)]+)\)/gu)].flatMap((match) => {
+		const target = match[1];
+		return target ? [target.replace(/#.*/u, '')] : [];
+	});
 }
 
 describe('release documentation contract', () => {

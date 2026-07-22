@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const testDatabaseUrl = process.env.PLAYWRIGHT_DATABASE_URL ?? `file:./data/e2e-${process.pid}.db`;
+
 export default defineConfig({
 	testDir: './tests',
 	testMatch: '**/*.spec.ts',
@@ -23,7 +25,7 @@ export default defineConfig({
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000,
 		env: {
-			DATABASE_URL: 'file:./data/e2e.db',
+			DATABASE_URL: testDatabaseUrl,
 			BETTER_AUTH_SECRET: 'e2e-only-secret-with-at-least-32-characters',
 			NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3000',
 			DEMO_ENABLED: 'true',

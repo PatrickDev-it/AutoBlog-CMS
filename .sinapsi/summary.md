@@ -33,8 +33,12 @@ constants/
 data/
   tests/
   autoblog.db
+  e2e-2956.db
+  e2e-4868.db
+  e2e-8696.db
   e2e.db
   performance.db
+  release-empty-20260722.db
 docs/
   engineering/
   releases/
@@ -100,6 +104,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T03:48:11+02:00 — Stabilized isolated Playwright runs and passed the complete local release matrix.
 - 2026-07-22T03:37:58+02:00 — Replaced legacy product claims with tested release, security and operations evidence.
 - 2026-07-22T03:29:49+02:00 — Delivered isolated demo reset, accessibility, visuals and production performance budgets.
 - 2026-07-22T03:07:40+02:00 — Delivered verified compensating media and governed explicit AI suggestions.
@@ -114,10 +119,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- P-01 through P-17 are Verified; P-18 repository implementation and truthful docs are locally complete.
-- README/FEATURES map claims to persisted paths, tests and actual versioned application visuals.
-- Threat model, deployment, migration, recovery, limitations and v2 candidate release notes are complete.
-- Local evidence is 19 unit, 25 integration, 10 E2E, 6 a11y, 5 visual and 2 performance tests.
+- P-01 through P-17 are Verified; P-18 repository/local gates are complete and truthful.
+- Frozen install, empty migration/seed, type/lint, 19 unit, 25 integration and build pass.
+- Browser evidence: 10 E2E, 6 a11y, 5 visual and 2 production performance tests pass.
+- Final lab: LCP 156/168 ms, CLS 0, interaction 16 ms and JavaScript 142/221 KB.
 - GitHub owner `PatrickDev-it` is verified; existing production remains old commit `485f037`.
 - Historical provider values in `8f83cec` require owner rotation; never print, suppress or rewrite them.
-- Next: final clean gates and PR/CI; merge/release/live v2 require external rotation and deployment config.
+- Next: commit/push/PR/CI; merge/release/live v2 require external rotation and deployment config.

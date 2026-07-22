@@ -171,3 +171,22 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
 - Validation: documentation contract 2/2 and zero-warning lint pass; local evidence links resolve.
 - Remaining gate: P-18 stays in progress pending full clean gates, remote PR/CI, owner credential
   rotation, durable deployment configuration, merge/tag/release and clean-session public verification.
+
+## 2026-07-22T03:48:11+02:00 — Stabilize and execute the complete local release matrix
+
+- Goal: validate the AutoBlog 2.0 candidate from frozen install through production performance and
+  surface any nondeterministic release defect before remote CI.
+- Finding: the first E2E run correctly failed because the fixed `data/e2e.db` retained the intentional
+  hourly demo-reset window across runs. This made repeat execution dependent on prior local state.
+- Fix: Playwright now gives every process an isolated durable libSQL file, optionally overridden by
+  `PLAYWRIGHT_DATABASE_URL`; production rate-limit and idempotency behavior are unchanged.
+- Strictness: removed the only strict TypeScript defect in the new Markdown-link parser without an
+  assertion/cast. The documentation contract remains 2/2 and full unit count is 19.
+- Empty database: migrations `0000`–`0003` and validated demo seed pass from a new file.
+- Browser evidence: 10 E2E, 6 accessibility and 5 visual tests pass on pinned Chromium.
+- Production evidence: build passes; LCP is 156/168 ms, CLS 0, interaction 16 ms, history response
+  106 ms and transferred JavaScript 141,959/221,420 bytes, within accepted budgets.
+- Security/reproducibility: frozen install, strict typecheck, zero-warning lint, 19 unit, 25 integration,
+  zero-vulnerability runtime audit and current-tree secret scan pass.
+- Remaining release risk is external: historical credential rotation, remote durable configuration,
+  full-history CI, merge/tag/release and clean-session public deployment verification.
