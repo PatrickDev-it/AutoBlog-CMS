@@ -1,22 +1,24 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig, globalIgnores } from 'eslint/config';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTypeScript from 'eslint-config-next/typescript';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-	baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-	...compat.extends("next/core-web-vitals", "next/typescript"),
+export default defineConfig([
+	...nextVitals,
+	...nextTypeScript,
+	globalIgnores([
+		'.next/**',
+		'coverage/**',
+		'data/**',
+		'playwright-report/**',
+		'test-results/**',
+		'.sinapsi/**',
+	]),
 	{
+		files: ['**/*.{ts,tsx}'],
 		rules: {
-			"@typescript-eslint/no-explicit-any": "off", // Disabilita il controllo su 'any'
-			"@typescript-eslint/ban-ts-comment": "off",
+			'@typescript-eslint/consistent-type-imports': 'error',
+			'@typescript-eslint/no-explicit-any': 'error',
+			'@typescript-eslint/no-non-null-assertion': 'error',
 		},
 	},
-];
-
-export default eslintConfig;
+]);

@@ -1,50 +1,31 @@
-import '@/config/_export';
-
 import './globals.css';
-import '@/lib/cloudinary';
-
-import { Toaster } from '@/ui/toaster';
-import { SidebarProvider } from '@/ui/sidebar';
-import { ThemeProvider } from '@/hooks/use-theme';
-
-import type { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';
+import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-	title: 'BT - Dashboard',
-	description: 'Developed by PatrickDev',
-	robots: { index: false, follow: false },
+	title: {
+		default: 'AutoBlog CMS — Editorial control for AI-assisted teams',
+		template: '%s | AutoBlog CMS',
+	},
+	description:
+		'An authenticated editorial CMS with immutable revisions, role-based workflow and bounded AI assistance.',
+	metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+	robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
 	width: 'device-width',
 	initialScale: 1,
-	maximumScale: 1,
-	userScalable: false,
-	themeColor: '#000',
+	themeColor: '#090b0d',
 };
 
-export default function RootLayout({ sidebar, inset }: Layouts) {
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
 	return (
-		<html lang="en" className="dark">
-			<ThemeProvider defaultValue="dark">
-				<body className="antialiased">
-					<div id="content">
-						<div>
-							<SidebarProvider className="p-0 bg-transparent size-full">
-								{sidebar}
-								{inset}
-							</SidebarProvider>
-						</div>
-					</div>
-					<Toaster />
-				</body>
-			</ThemeProvider>
+		<html lang="en" data-scroll-behavior="smooth">
+			<body>
+				<a className="skip-link" href="#main-content">Skip to content</a>
+				{children}
+			</body>
 		</html>
 	);
-}
-
-export interface Layouts {
-	inset: ReactNode;
-	sidebar: ReactNode;
 }

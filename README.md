@@ -1,366 +1,138 @@
-# Autoblog CMS + Gemini AI Assistant
+# AutoBlog CMS
 
-A modern, intelligent blog content management system built with Next.js and Tailwind CSS. Features AI-assisted content creation, intuitive
-hierarchical organization, professional editorial workflows, and beautiful responsive design.
+An AI-assisted editorial CMS built to demonstrate durable workflow engineering: real sessions,
+workspace-scoped RBAC, immutable revisions, optimistic concurrency, scheduled publication, bounded
+media and explicit AI suggestions.
 
-**[📚 Full Feature Guide →](./FEATURES.md)**
+[![Quality gates](https://github.com/PatrickDev-it/AutoBlog-CMS/actions/workflows/quality.yml/badge.svg)](https://github.com/PatrickDev-it/AutoBlog-CMS/actions/workflows/quality.yml)
+[![MIT license](https://img.shields.io/badge/license-MIT-111111.svg)](./LICENSE)
 
----
+> AutoBlog 2.0 is release-ready in the repository, but the hosted v2 demo is not advertised yet.
+> Provider credential rotation and remote libSQL/scheduler configuration remain owner actions.
 
-## ✨ Key Strengths
+![AutoBlog recruiter landing page](./tests/visual/surfaces.spec.ts-snapshots/marketing-desktop.png)
 
-### 🤖 Integrated AI Assistant
+## Product outcome
 
-- **Gemini 1.5 Integration**: Select from Flash, Flash 8B, Pro, or 2.0 models
-- **Real-Time Guidance**: Get suggestions on content creation, SEO, editorial standards, analytics
-- **Typewriter Effect**: Beautiful character-by-character animations for engaging presentation
-- **Conversation History**: Full session persistence for context-aware responses
-- **Markdown Rendering**: Professional formatting with lists, emphasis, and embedded content
+AutoBlog takes a post from Draft through review, approval and immutable publication. Every protected
+request resolves a database session and workspace membership before invoking an application service.
+Stale autosaves return HTTP 409, scheduled jobs are leased and idempotent, and generated text remains
+a suggestion until a user applies it.
 
-### ✏️ Effortless Content Management
+```mermaid
+flowchart LR
+  Browser --> Adapter[Next.js server adapter]
+  Adapter --> Session[Better Auth session]
+  Session --> Policy[Workspace membership and RBAC]
+  Policy --> Service[Application command or query]
+  Service --> Domain[Editorial invariants]
+  Service --> DB[(Drizzle and libSQL)]
+  Service --> Jobs[(Durable jobs)]
+  Service --> Media[Verified media port]
+  Service --> AI[Bounded AI port]
+```
 
-- **Right-Click Organization**: Context menus for creating groups, subgroups, and posts
-- **One-Click Renaming**: Instant inline editing for any content item
-- **Hierarchical Structure**: Section → Group → Subgroup → Post organization
-- **Professional Templates**: Pre-configured content categories (Featured, Design, Culture, Insights, Resources)
-- **Publication States**: Draft, Scheduled, Published, Archived with date scheduling
+## Guided evaluation
 
-### 💾 Smart Persistence
+1. Run the local setup below and open `http://localhost:3000/sign-in`.
+2. Enter as **Author**, create a draft, edit it, reload, inspect history and submit it.
+3. Sign in as **Reviewer** to request changes or approve.
+4. Sign in as **Editor** to publish or schedule the pinned revision, then open public preview.
+5. Request a visibly labeled mock AI suggestion and verify that content changes only after **Apply**.
+6. Sign in as **Owner** to reset only the bounded demo workspace.
 
-- **Autosave Everything**: Changes persist instantly without manual saving
-- **Session Storage**: Secure browser-based data handling
-- **Real-Time Sync**: All edits reflected immediately across dashboard
-- **No Data Loss**: Automatic recovery from browser cache
+The application checklist derives its progress from persisted state. Seeded role buttons create
+ordinary HTTP-only sessions; they are not an authentication bypass.
 
-### 📱 Truly Responsive Design
+![Authenticated editorial workspace](./tests/visual/surfaces.spec.ts-snapshots/workspace-desktop.png)
 
-- **Desktop**: Full-featured sidebar + dual-column editor
-- **Tablet**: Optimized grid layouts and touch targets
-- **Mobile**: Full-screen modals and finger-friendly controls
-- **Tested Across Devices**: Works seamlessly on all modern browsers
+## Evidence-backed feature matrix
 
-### 🖼️ Professional Image Management
+| Capability | Status | Executable evidence |
+| --- | --- | --- |
+| Durable workspace persistence | Implemented, tested | migration-from-empty, restart and isolation integration tests |
+| Real authentication and five-role RBAC | Implemented, tested | complete policy matrix, route denials and E2E role switching |
+| Immutable history, compare and restore | Implemented, tested | append-only triggers, integration tests and flagship E2E |
+| Conflict-safe debounced autosave | Implemented, tested | concurrent writer integration test and HTTP 409 E2E |
+| Review, scheduling and publication | Implemented, tested | state-machine tests, leased job tests and public-preview E2E |
+| Bounded PNG/JPEG/WebP media | Implemented, tested | MIME/size/dimension/isolation and compensation tests |
+| AI suggestions | Implemented, tested | shared mock/Gemini contract, quota/rate/timeout and explicit-Apply E2E |
+| Guided resettable workspace | Demo-only, tested | Owner-only bounded reset integration and E2E |
+| Analytics dashboard | Planned | no product claim or simulated analytics path |
+| High-volume object storage | Planned | current adapter deliberately stores bounded objects in libSQL |
+| Hosted AutoBlog 2.0 demo | Planned external gate | remote database, scheduler and historical credential rotation required |
 
-- **Click-to-Upload**: Intuitive image selection and preview
-- **Optimized Loading**: Next.js Image optimization with lazy loading
-- **Multiple Formats**: JPG, PNG, WebP with automatic conversion
-- **Responsive Images**: Proper sizing for all device types
-- **8 Professional Demo Images**: Ready-to-use for all content sections
+See [FEATURES.md](./FEATURES.md) for the complete claim-to-test map.
 
-### 🎨 Enterprise-Grade UI
+## Local setup
 
-- **Dark & Light Themes**: Full theme switching with system preference detection
-- **Accessible Components**: WCAG AA compliant with keyboard navigation
-- **Smooth Animations**: Typewriter effects, pulsing indicators, hover states
-- **Breadcrumb Navigation**: Always know where you are in the structure
-
-### 📊 Comprehensive Organization
-
-- **5 Content Sections**: Featured, Design, Culture, Insights, Resources
-- **20+ Demo Posts**: Realistic content examples in every section
-- **Multi-Level Groups**: Organize content by themes, months, topics
-- **Editorial Advisory**: Built-in system for maintaining brand standards
-
-### ⚡ Lightning-Fast Performance
-
-- **Server Components**: React 18 with server-side rendering
-- **Lazy Loading**: Images and components load on-demand
-- **Code Splitting**: Automatic optimization by Next.js
-- **Zero External Calls**: Demo mode with full offline functionality
-
----
-
-## 🚀 Quick Start
-
-### Installation
+Requirements: Bun 1.3.12 and Node.js 20.9 or later.
 
 ```bash
-# Install dependencies
-bun install
-
-# Start development
-bun dev
-
-# Production build
-bun build
-bun start
+cp .env.example .env.local
+bun install --frozen-lockfile
+bun run db:setup
+bun run dev
 ```
 
-### First Steps
-
-1. Navigate to any content section in the sidebar
-2. Right-click to create a new group or post
-3. Click **AI** button (top-right) to ask for content guidance
-4. Write and watch as your content autosaves
-5. Upload featured images with one click
-6. Switch between preview and edit modes
-7. Publish or schedule for later!
-
----
-
-## 📖 Technology Stack
-
-- **Frontend**: Next.js 14+, React 18+, TypeScript
-- **Styling**: Tailwind CSS, shadcn/ui components
-- **State**: React hooks, Context API, Browser SessionStorage
-- **AI**: Google Generative AI (Gemini)
-- **Images**: Next.js Image optimization
-- **Theme**: Dark/Light mode with system preference detection
-
----
-
-## 🎯 Core Features
-
-| Feature                    | Benefit                                          |
-| -------------------------- | ------------------------------------------------ |
-| **AI Assistant**           | Intelligent guidance on every aspect of blogging |
-| **Right-Click Menu**       | Create content 3x faster than traditional CMS    |
-| **Autosave**               | Never lose work again—saves automatically        |
-| **Mobile Responsive**      | Works perfectly on phone, tablet, desktop        |
-| **Image Management**       | Optimized uploads with multiple format support   |
-| **Editorial Standards**    | Advisory panel maintains brand consistency       |
-| **Publication Scheduling** | Schedule posts for future release                |
-| **Demo Mode**              | Test everything without external dependencies    |
-| **Dark Theme**             | Eye-friendly interface for extended use          |
-| **Loading States**         | Beautiful skeleton loaders while fetching data   |
-
----
-
-## 📁 Project Structure
-
-```
-├── app/                      # Next.js app router
-│   ├── @inset/             # Main content editor layout
-│   │   ├── [section]/      # Dynamic section pages
-│   │   ├── [id]/           # Individual post editor
-│   │   ├── home/           # Homepage image management
-│   │   └── advisory/       # Editorial advisory panel
-│   ├── @sidebar/           # Navigation sidebar
-│   ├── api/                # API routes (demo mode)
-│   └── layout.tsx          # Root layout
-├── components/             # React components
-│   ├── chat/              # AI assistant interface
-│   ├── groups/            # Group/subgroup components
-│   ├── webapp/            # Post preview components
-│   └── imageLoader.tsx    # Image management UI
-├── utils/                  # Utility functions
-│   ├── api-fetch.ts       # Mock API with demo data
-│   └── revalidate.ts      # Cache invalidation
-├── constants/              # Configuration
-│   ├── sections.ts        # Content sections
-│   └── post-init-template.ts  # Default post fields
-├── hooks/                  # Custom React hooks
-│   └── use-typewriter.ts  # Typewriter animation
-├── public/demo/            # Demo images (8 professional images)
-└── types/                  # TypeScript type definitions
-```
-
----
-
-## 🔧 Configuration
-
-### Environment Variables
-
-All environment variables are pre-configured with safe demo values. No real credentials are committed.
-
-```env
-# Local demo configuration (no external dependencies needed)
-MONGODB_URI=""
-DBNAME=""
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=""
-GEMINI_API_KEY=""
-```
-
-### Customization
-
-- **Sections**: Edit `constants/sections.ts` to add categories
-- **Demo Data**: Modify `utils/api-fetch.ts` to change sample content
-- **Styling**: Tailwind CSS with custom CSS variables in `app/globals.css`
-- **Components**: Use shadcn/ui for building new features
-
----
-
-## 🎨 Content Sections
-
-The CMS comes with 5 professionally-organized sections:
-
-### Featured Stories
-
-Curated highlights and trending content
-
-- Examples: Digital Revolution, Sustainable Design, Community Impact
-
-### Design & Creative
-
-Design trends, visual systems, UI/UX expertise
-
-- Examples: UX Trends 2025, Accessibility Design, Typography Mastery
-
-### Culture & Arts
-
-Cultural commentary, exhibitions, interviews
-
-- Examples: Installation Art Showcase, Fashion Week, Artist Interviews
-
-### Insights & Analysis
-
-Industry trends, research, thought leadership
-
-- Examples: Market Analysis, Technology Forecast, Future of Work
-
-### Resources & Guides
-
-Tutorials, guides, tools, and best practices
-
-- Examples: Web Performance, Security Practices, Designer's Toolkit
-
-Each section includes realistic multi-level organization and professional demo content.
-
----
-
-## 📊 Dashboard Features
-
-### Sidebar Navigation
-
-- Content sections with collapsible groups
-- Quick access to Home and Advisory pages
-- Theme switcher for dark/light mode
-- Environment configuration
-
-### Main Editor
-
-- Dual-view: Preview & Edit modes
-- Rich text editing with Markdown support
-- Image upload and management
-- Publication state and scheduling
-- Auto-save indicator
-
-### AI Assistant
-
-- Pulsing "AI" indicator showing availability
-- Model selection for different use cases
-- Conversation history maintained in session
-- Responsive markdown rendering
-- Smart category-based responses
-
-### Loading States
-
-- Skeleton loaders for all async operations
-- Beautiful transitions while fetching
-- Matches actual layout structure
-- Prevents layout shift
-
----
-
-## 🚀 Performance Optimizations
-
-- **Server Components**: React Server Components for reduced JS
-- **Image Optimization**: Next/Image with lazy loading
-- **Code Splitting**: Automatic route-based splitting
-- **Type Safety**: Full TypeScript coverage prevents errors
-- **Responsive Design**: Mobile-first CSS approach
-- **Caching**: Smart cache strategies
-
----
-
-## 🔐 Security & Best Practices
-
-- **Type-Safe**: Full TypeScript validation
-- **Demo Mode**: No real API calls or credentials in code
-- **WCAG AA**: Accessible design for all users
-- **Semantic HTML**: Proper DOM semantics
-- **Environment Variables**: Secure configuration handling
-
----
-
-## 💡 Example Workflows
-
-### Content Creator
-
-```
-1. Ask AI: "How do I write engaging content?"
-2. Right-click → Create Post
-3. Type while AI offers suggestions
-4. Upload featured image
-5. Autosave handles persistence
-6. Preview to verify layout
-7. Publish or schedule
-```
-
-### Editorial Manager
-
-```
-1. Open Dashboard
-2. Ask AI: "Evaluate editorial quality"
-3. Right-click group → Rename for campaign
-4. Update publication states
-5. Set scheduling dates
-6. Monitor analytics by section
-```
-
-### Content Strategist
-
-```
-1. Chat with AI for trend analysis
-2. Request content calendar ideas
-3. Create thematic content groups
-4. Plan cross-section strategy
-5. Schedule coordinated releases
-6. Track performance metrics
-```
-
----
-
-## 📚 Additional Resources
-
-- **Features Guide**: See [FEATURES.md](./FEATURES.md) for comprehensive feature documentation
-- **Keyboard Shortcuts**: Right-click context menus + keyboard support
-- **AI Assistance**: Click AI button to learn about any feature
-
----
-
-## 🎯 Use Cases
-
-✅ **Professional Bloggers**: Multi-category blog organization with editorial workflow ✅ **Content Teams**: Collaborative content creation with
-advisory standards ✅ **Marketing Teams**: Campaign-based content organization with scheduling ✅ **Agencies**: Client portfolio and case study
-management ✅ **Thought Leaders**: Publish insights and establish authority ✅ **Educational Platforms**: Course and learning content organization
-
----
-
-## 📝 License
-
-This project is provided as-is for educational and commercial use.
-
----
-
-**Autoblog CMS v1.0** - Where AI meets intelligent content management.
-
-Built with modern web technologies. Optimized for performance. Designed for scale.
-
-- `CLOUDINARY_API_SECRET`
-- `CLOUDINARY_WEBSITE_FOLDER`
-- `GEMINI_API_KEY`
-- `NEXT_PUBLIC_FIREBASE_API_KEY`
-- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
-- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
-- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
-- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
-- `NEXT_PUBLIC_FIREBASE_APP_ID`
-- `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
-
-## Security and Compliance Notes
-
-- Do not commit real credentials, API keys, tokens, or passwords.
-- Keep `.env.local` environment-specific and secret-scoped.
-- Rotate any credential that was previously committed.
-
-## Deployment
-
-Build and run in production mode:
+The default `.env.example` uses a durable local SQLite/libSQL file and deterministic mock AI. Do not
+use a `file:` database in a serverless public deployment.
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_APP_URL` | canonical origin used for cookies and origin validation |
+| `DATABASE_URL` | local `file:` URL or remote `libsql:`/`https:` URL |
+| `DATABASE_AUTH_TOKEN` | remote libSQL credential; omit locally |
+| `BETTER_AUTH_SECRET` | unique 32+ character session secret |
+| `DEMO_ENABLED` | installs and permits reset of the bounded demo workspace |
+| `AI_MODE` | `mock` or `gemini` |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | optional configured AI provider settings |
+| `CRON_SECRET` | distinct 24+ character scheduler credential |
+| `AI_MONTHLY_CHARACTER_QUOTA` | durable workspace AI character budget |
+| `MEDIA_MAX_BYTES` | upload cap, constrained to at most 10 MiB |
+
+## Quality gates
 
 ```bash
-npm run build
-npm run start
+bun run typecheck
+bun run lint
+bun run test
+bun run test:integration
+bun run test:e2e
+bun run test:a11y
+bun run test:visual
+bun run build
+bun run test:performance
+bun run test:lighthouse
+bun run audit
+bun run security:secrets
 ```
 
-Use your preferred hosting provider (e.g., Vercel) with environment variables configured in the deployment platform.
+The measured local release evidence is 19 unit, 25 integration, 10 E2E, 6 accessibility, 5 visual,
+2 direct performance tests and 6 Lighthouse runs. Current budgets and measurements are recorded in
+[docs/performance.md](./docs/performance.md); these are lab targets, not universal field claims.
+
+## Engineering documentation
+
+- [Architecture and boundaries](./docs/architecture.md)
+- [Data model and migrations](./docs/data-model.md)
+- [Authentication and RBAC](./docs/authentication-rbac.md)
+- [Editorial workflow](./docs/editorial-workflow.md)
+- [API and stable errors](./docs/api.md)
+- [Security threat model](./docs/security-threat-model.md)
+- [Media security](./docs/media-security.md)
+- [AI data handling](./docs/ai-data-handling.md)
+- [Accessibility evidence](./docs/accessibility.md)
+- [Performance evidence](./docs/performance.md)
+- [Deployment](./docs/deployment.md)
+- [Rollback and recovery](./docs/rollback-recovery.md)
+- [Known limitations](./docs/known-limitations.md)
+- [2.0 release notes](./docs/releases/v2.0.0.md)
+
+## Security and license
+
+Current source and runtime dependencies scan clean. An early shared commit contains historical
+MongoDB, Cloudinary and Gemini values; their account owners must rotate or revoke them before public
+v2 release. Values are never reproduced in documentation or fixtures. See [SECURITY.md](./SECURITY.md).
+
+Licensed under the [MIT License](./LICENSE), copyright 2024–2026 PatrickDev-it.
