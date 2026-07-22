@@ -37,6 +37,7 @@ data/
   performance.db
 docs/
   engineering/
+  releases/
   accessibility.md
   ai-data-handling.md
   api.md
@@ -44,9 +45,14 @@ docs/
   authentication-rbac.md
   data-model.md
   demo-guide.md
+  deployment.md
   editorial-workflow.md
+  known-limitations.md
   media-security.md
+  migrations.md
   performance.md
+  rollback-recovery.md
+  security-threat-model.md
 drizzle/
   0000_editorial_core.sql
   0001_auth_rate_limit.sql
@@ -94,6 +100,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T03:37:58+02:00 — Replaced legacy product claims with tested release, security and operations evidence.
 - 2026-07-22T03:29:49+02:00 — Delivered isolated demo reset, accessibility, visuals and production performance budgets.
 - 2026-07-22T03:07:40+02:00 — Delivered verified compensating media and governed explicit AI suggestions.
 - 2026-07-22T02:39:02+02:00 — Delivered versioned review, restore, durable scheduling and immutable public publication.
@@ -107,10 +114,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- Phases 0–4 are complete; P-01 through P-17 have executable implementation evidence.
-- Owner-only demo reset is workspace-bounded, rate-limited and idempotent; sessions/configured data survive.
-- Four-surface axe, keyboard/focus/reduced-motion and six desktop/mobile visual baselines pass.
-- Production budgets pass: LCP 180/256 ms, CLS 0, INP upper bound <16 ms and JS 142/221 KB.
-- Frozen install, typecheck/lint, 17 unit, 25 integration, 10 E2E, 6 a11y, 5 visual and 2 perf pass.
-- Historical provider values in `8f83cec` still require owner rotation; never print or rewrite them.
-- Next: truthful release docs/screenshots, final clean gates, GitHub PR/CI/release and live verification.
+- P-01 through P-17 are Verified; P-18 repository implementation and truthful docs are locally complete.
+- README/FEATURES map claims to persisted paths, tests and actual versioned application visuals.
+- Threat model, deployment, migration, recovery, limitations and v2 candidate release notes are complete.
+- Local evidence is 19 unit, 25 integration, 10 E2E, 6 a11y, 5 visual and 2 performance tests.
+- GitHub owner `PatrickDev-it` is verified; existing production remains old commit `485f037`.
+- Historical provider values in `8f83cec` require owner rotation; never print, suppress or rewrite them.
+- Next: final clean gates and PR/CI; merge/release/live v2 require external rotation and deployment config.

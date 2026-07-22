@@ -22,7 +22,7 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | P-15 | Semantic caching and measured budgets | production LCP/INP/CLS/JS executable budgets | Verified |
 | P-16 | Stable non-leaking public errors | API contract tests | Verified |
 | P-17 | Guided bounded recruiter demo | dynamic checklist + isolated idempotent reset integration/E2E | Verified |
-| P-18 | CI, truthful docs, screenshots and release | CI/release/public verification | In progress |
+| P-18 | CI, truthful docs, screenshots and release | versioned real-app visuals + docs + CI/release/public verification | In progress |
 
 ## Release-only external dependencies
 

@@ -154,3 +154,20 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   5 visual and 2 performance tests, build, secrets and zero-vulnerability audit pass.
 - Breaking changes: migration `0003` adds immutable reset idempotency. Visual baselines are reviewed
   on Windows Chromium to control font rasterization. Final status: complete.
+
+## 2026-07-22T03:37:58+02:00 — Replace legacy claims with executable release evidence
+
+- Goal: advance P-18 by making every public product claim map to a reachable path and named proof.
+- Documentation: replaced the legacy simulator README/FEATURES with a recruiter brief, explicit
+  Implemented/Tested/Demo-only/Planned matrix, actual application visuals and guided role workflow.
+- Operations: added deployment, migration, rollback/recovery, known-limitations and 2.0 candidate
+  release notes with the exact external configuration required for durable public operation.
+- Security: added a trust-boundary threat model, control/evidence/residual-risk table and an explicit
+  non-suppressible historical credential rotation gate; expanded the operator security policy.
+- Integrity: added a documentation contract test for local evidence links, all P-01–P-18 ledger rows
+  and superseded claim exclusion.
+- GitHub discovery: authenticated owner is `PatrickDev-it`; repository is public. The current public
+  production deployment is still commit `485f037` and is not presented as AutoBlog 2.0 evidence.
+- Validation: documentation contract 2/2 and zero-warning lint pass; local evidence links resolve.
+- Remaining gate: P-18 stays in progress pending full clean gates, remote PR/CI, owner credential
+  rotation, durable deployment configuration, merge/tag/release and clean-session public verification.

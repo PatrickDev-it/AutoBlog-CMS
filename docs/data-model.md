@@ -1,8 +1,9 @@
 # Data model and persistence invariants
 
-Migration `drizzle/0000_editorial_core.sql` creates the application model; migration `0001` adds
-database-backed authentication rate limiting. Checks, foreign keys and uniqueness are validated
-from an empty database in integration tests.
+Migration `drizzle/0000_editorial_core.sql` creates the application model; later migrations add
+authentication limits, media/AI governance and demo-reset idempotency. Checks, foreign keys and
+uniqueness are validated from an empty database in integration tests. Operational commands and the
+complete sequence are documented in [migrations.md](./migrations.md).
 
 ```mermaid
 erDiagram

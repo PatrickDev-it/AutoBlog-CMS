@@ -2,29 +2,32 @@
 
 ## Current state
 
-- Branch `feat/rfc-editorial-cms`; Phase commits through Phase 3: `c6e8caa`, `c6d515e`, `ecfd1dc`,
-  `cc4a86f`.
-- Phases 0–4 are complete. P-01 through P-17 are marked Verified in the executable ledger.
-- Migrations `0000`–`0003` reproduce the durable editorial, provider and reset model.
-- The complete recruiter path, failure boundaries, quality targets and visuals pass locally.
+- Branch `feat/rfc-editorial-cms`; Phase 4 committed as `c29ab8f` after commits through `cc4a86f`.
+- P-01 through P-17 are Verified. P-18 implementation/docs are complete locally but remote release
+  evidence is pending.
+- README/FEATURES now expose only persisted, authorized paths and explicitly label demo/planned scope.
+- Threat model, deployment, migrations, rollback/recovery, limitations and v2 candidate notes exist.
+- Actual marketing/workspace/preview screenshots are the tested visual baselines referenced by README.
 
-## Verified gates
+## Verified local evidence
 
-- Frozen install, strict typecheck/lint, production build, current-tree secrets and zero audit.
-- Unit 17; integration 25; E2E 10; accessibility 6; visual 5; performance 2.
-- Final production lab: LCP 180/256 ms, CLS 0, INP/event upper bound <16 ms, workflow response
-  143 ms, transferred JS 141,959/221,420 bytes.
+- Previous full gates: frozen install, strict typecheck/lint, build, zero audit/current-tree secrets;
+  17 unit, 25 integration, 10 E2E, 6 accessibility, 5 visual and 2 performance.
+- New documentation contract adds 2 unit tests and passes with zero-warning lint; final unit total is 19.
+- Production lab: LCP 180/256 ms, CLS 0, interaction upper bound <16 ms, response 143 ms and
+  transferred JavaScript 141,959/221,420 bytes.
 
-## Security and external risk
+## GitHub and external risk
 
-- Historical MongoDB, Cloudinary and Gemini values in `8f83cec` require owner rotation/revocation;
-  never print or rewrite them. Full-history CI will intentionally identify this release blocker.
-- Live deployment requires externally owned remote libSQL/auth/cron configuration. Configured Gemini
-  is optional and potentially billable; demo/CI use mock mode.
+- GitHub CLI identity verified as `PatrickDev-it`; repository `PatrickDev-it/AutoBlog-CMS` is public.
+- Existing production deployment points to old commit `485f037`; it is not AutoBlog 2.0 evidence.
+- Historical MongoDB, Cloudinary and Gemini values in `8f83cec` require owner rotation/revocation.
+  Never print, baseline-suppress or rewrite them.
+- Public v2 requires externally configured remote libSQL/auth/cron settings and a one-minute scheduler.
 
 ## Next coherent patch
 
-Phase 5: rewrite README/FEATURES and complete threat model, deployment, rollback/recovery, migration,
-known-limitations and release notes. Generate recruiter screenshots from the tested app, validate all
-claims/gates from clean state, verify GitHub owner, push PR and wait for required CI. Merge/release and
-live verification proceed only if credential rotation and deployment ownership are available.
+Run the full clean release matrix including 19 unit tests and migration from empty. Inspect/stage/commit
+the documentation patch. Fetch/reconcile, push the branch, create the PR and collect CI evidence. Do
+not merge/tag or advertise a v2 demo unless the full-history secret gate and deployment requirements
+are resolved; otherwise finish all repository/GitHub-side work and report `EXTERNALLY BLOCKED`.
