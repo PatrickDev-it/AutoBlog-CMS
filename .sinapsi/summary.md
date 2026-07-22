@@ -12,6 +12,7 @@ _client/
   @sidebar/
 actions/
 app/
+  (workspace)/
   @inset/
   @sidebar/
   api/
@@ -28,8 +29,19 @@ components/
 config/
   css/
 constants/
+data/
+  tests/
+  autoblog.db
+  e2e.db
 docs/
   engineering/
+  api.md
+  architecture.md
+  authentication-rbac.md
+  data-model.md
+drizzle/
+  0000_editorial_core.sql
+  0001_auth_rate_limit.sql
 hooks/
 lib/
 plugins/
@@ -45,14 +57,18 @@ public/
   logo.svg
   window.svg
 scripts/
+  db/
   security/
 src/
+  modules/
   platform/
+  ui/
 test-results/
   .last-run.json
 tests/
   accessibility/
   e2e/
+  integration/
   unit/
 types/
 ui/
@@ -61,9 +77,7 @@ utils/
 .gitignore
 .mcp.json
 AGENTS.md
-CMS blog.code-workspace
-FEATURES.md
-… 14 more
+… 17 more
 ```
 <!-- sinapsi:end -->
 
@@ -79,6 +93,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
 
 - 2026-07-22T01:34:41+02:00 — Reproduced the baseline and accepted the libSQL/Better Auth modular-monolith foundation.
 - 2026-07-22T01:47:42+02:00 — Closed Phase 0 with strict green gates, zero audit findings and legacy-path deletion.
+- 2026-07-22T02:13:25+02:00 — Delivered database-backed sessions, RBAC, durable posts and conflict-safe autosave.
 
 ## Where things stand
 
@@ -86,10 +101,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- Phase 0 is complete on `feat/rfc-editorial-cms`; all unsafe legacy routes/simulators are deleted.
-- Frozen install, strict typecheck, zero-warning lint, unit, build, audit, E2E and axe pass locally.
-- Next.js 16.2.11/React 19.2.8 are pinned; runtime audit reports zero vulnerabilities.
-- `.env.local` is removed; current-tree secret scanning passes and pinned independent CI jobs exist.
-- Historical provider values in `8f83cec` still require rotation; never print them or rewrite history.
-- `/` is the recruiter landing page; `/sign-in` is explicitly a Phase 1 placeholder.
-- Next: Drizzle schema/migrations, Better Auth, workspace RBAC and durable create/edit persistence.
+- Phase 1 is complete on `feat/rfc-editorial-cms`: one Drizzle/libSQL persistence boundary serves demo and configured modes.
+- Better Auth database sessions derive workspace identity; the complete five-role policy matrix is enforced server-side.
+- Protected list/create/edit, immutable revisions and expected-version conflict handling are live in the workspace UI.
+- Frozen install, strict typecheck/lint, 9 unit, 5 integration, build, zero audit findings and 5 E2E/axe tests pass.
+- Two checksum-verified migrations and validated idempotent seed/setup reproduce the database from empty.
+- Historical provider values in `8f83cec` still require owner rotation; never print them or rewrite history.
+- Next: editorial transitions, history/diff/restore, durable publication jobs and immutable public preview.

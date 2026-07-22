@@ -19,5 +19,13 @@ export default defineConfig({
 		url: 'http://127.0.0.1:3000',
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000,
+		env: {
+			DATABASE_URL: 'file:./data/e2e.db',
+			BETTER_AUTH_SECRET: 'e2e-only-secret-with-at-least-32-characters',
+			NEXT_PUBLIC_APP_URL: 'http://127.0.0.1:3000',
+			DEMO_ENABLED: 'true',
+			AI_MODE: 'mock',
+			CRON_SECRET: 'e2e-only-distinct-cron-secret-0000000',
+		},
 	},
 });
