@@ -33,12 +33,12 @@ test('verified media can be safely replaced and deleted through authorized roles
 	await page.getByLabel('Article body').fill('Media lifecycle fixture.');
 	await expect(page.getByText(/Revision \d+ saved\./)).toBeVisible({ timeout: 12_000 });
 	const file = page.getByLabel(/PNG, JPEG or WebP/);
-	await file.setInputFiles('public/logo.png');
+	await file.setInputFiles('app/icon.png');
 	await page.getByLabel('Alternative text').fill('AutoBlog brand mark');
 	await page.getByRole('button', { name: 'Upload verified image' }).click();
 	await expect(page.getByText('Verified image activated.')).toBeVisible({ timeout: 12_000 });
 	await expect(page.getByText(/image\/png/)).toBeVisible();
-	await file.setInputFiles('public/logo.png');
+	await file.setInputFiles('app/icon.png');
 	await page.getByRole('button', { name: 'Replace safely' }).click();
 	await expect(page.getByText(/Replacement activated/)).toBeVisible({ timeout: 12_000 });
 	await expect(page.getByRole('button', { name: 'Delete asset' })).toHaveCount(0);

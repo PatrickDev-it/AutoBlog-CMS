@@ -44,7 +44,10 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 	const [historyOpen, setHistoryOpen] = useState(false);
 	const [workflowBusy, setWorkflowBusy] = useState(false);
 	const [scheduledFor, setScheduledFor] = useState('');
+	const [resetArmed, setResetArmed] = useState(false);
+	const [resetBusy, setResetBusy] = useState(false);
 	const saveInFlight = useRef(false);
+	const titleInput = useRef<HTMLTextAreaElement>(null);
 	const [baseline, setBaseline] = useState(initialPost ? JSON.stringify({ title: initialPost.title, excerpt: initialPost.excerpt, content: initialPost.content }) : '');
 
 	const canCreate = can(context.role, 'post.create', { actorId: context.userId, ownerId: context.userId });
@@ -101,6 +104,7 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 		if (response.ok && isData(envelope)) {
 			setPost(envelope.data);
 			setBaseline(JSON.stringify({ title: envelope.data.title, excerpt: envelope.data.excerpt, content: envelope.data.content }));
+			window.requestAnimationFrame(() => titleInput.current?.focus());
 		}
 	}
 
@@ -115,6 +119,7 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 			setPost(envelope.data);
 			setBaseline(JSON.stringify({ title: envelope.data.title, excerpt: '', content: '' }));
 			setMessage('Draft created. Start writing.');
+			window.requestAnimationFrame(() => titleInput.current?.focus());
 		}
 	}
 
@@ -181,16 +186,29 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 		router.push('/sign-in'); router.refresh();
 	}
 
+	async function resetDemo() {
+		if (!resetArmed) { setResetArmed(true); setMessage('Reset affects only the bounded demo workspace. Select Confirm reset to continue.'); return; }
+		setResetBusy(true);
+		const response = await fetch(`/api/workspaces/${context.workspaceId}/demo/reset`, {
+			method: 'POST', headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ idempotencyKey: `browser-reset:${crypto.randomUUID()}` }),
+		});
+		if (!response.ok) { setResetBusy(false); setResetArmed(false); setMessage('Demo reset was rejected or rate-limited.'); return; }
+		window.location.reload();
+	}
+
 	return (
 		<main id="main-content" className="workspace-shell">
 			<aside className="workspace-sidebar">
 				<div className="brand"><span className="brand-mark" aria-hidden="true">A</span><span>AutoBlog</span></div>
-				<div className="workspace-label"><span>Workspace</span><strong>{context.workspaceName}</strong></div>
+				<div className="workspace-label"><span>Workspace</span><strong>{context.workspaceName}</strong><small>Guided data · same policy and repository path</small></div>
 				<nav aria-label="Posts" className="post-nav">
 					<div className="post-nav-heading"><span>Editorial queue</span>{canCreate ? <button type="button" onClick={() => void createPost()} aria-label="Create draft">+</button> : null}</div>
 					{posts.map((item) => <button type="button" key={item.id} aria-current={post?.id === item.id ? 'page' : undefined} onClick={() => void selectPost(item.id)}><span>{item.title}</span><small>{item.state} · v{item.version}</small></button>)}
 				</nav>
-				<div className="guided-checklist"><span className="eyebrow">Guided run</span><ol><li className="done">Enter as a role</li><li className={post ? 'done' : ''}>Select a seeded draft</li><li>Edit and observe autosave</li><li>Submit for review</li><li>Publish immutable revision</li></ol></div>
+				<div className="guided-checklist"><span className="eyebrow">Guided run</span><ol><li className="done">Enter as a role</li><li className={post ? 'done' : ''}>Select a seeded draft</li><li className={post && post.version > 1 ? 'done' : ''}>Edit and observe autosave</li><li className={post && !['Draft', 'ChangesRequested'].includes(post.state) ? 'done' : ''}>Submit for review</li><li className={post?.publishedRevisionId ? 'done' : ''}>Publish immutable revision</li></ol>
+					{can(context.role, 'demo.reset') ? <button className={resetArmed ? 'reset-demo armed' : 'reset-demo'} type="button" disabled={resetBusy} onClick={() => void resetDemo()}>{resetBusy ? 'Resetting…' : resetArmed ? 'Confirm reset' : 'Reset demo data'}</button> : null}
+				</div>
 			</aside>
 
 			<section className="editor-shell">
@@ -202,7 +220,7 @@ export function WorkspaceEditor({ context, initialPosts, initialPost, aiMode }: 
 				{post ? <div className="editor-grid">
 					<div className="editor-form">
 						<div className="document-meta"><span>{post.state}</span><span>Revision {post.version}</span><span>/{post.slug}</span></div>
-						<label htmlFor="post-title">Title</label><textarea id="post-title" className="title-input" value={post.title} disabled={!canEdit} onChange={(event) => editPost({ title: event.target.value })} />
+						<label htmlFor="post-title">Title</label><textarea ref={titleInput} id="post-title" className="title-input" value={post.title} disabled={!canEdit} onChange={(event) => editPost({ title: event.target.value })} />
 						<label htmlFor="post-excerpt">Standfirst</label><textarea id="post-excerpt" className="excerpt-input" value={post.excerpt} disabled={!canEdit} onChange={(event) => editPost({ excerpt: event.target.value })} />
 						<label htmlFor="post-content">Article body</label><textarea id="post-content" className="content-input" value={post.content} disabled={!canEdit} onChange={(event) => editPost({ content: event.target.value })} />
 						<section className="workflow-panel" aria-labelledby="workflow-heading">

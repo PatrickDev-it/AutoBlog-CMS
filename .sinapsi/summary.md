@@ -34,33 +34,27 @@ data/
   tests/
   autoblog.db
   e2e.db
+  performance.db
 docs/
   engineering/
+  accessibility.md
   ai-data-handling.md
   api.md
   architecture.md
   authentication-rbac.md
   data-model.md
+  demo-guide.md
   editorial-workflow.md
   media-security.md
+  performance.md
 drizzle/
   0000_editorial_core.sql
   0001_auth_rate_limit.sql
   0002_media_ai_governance.sql
+  0003_demo_reset_idempotency.sql
 hooks/
 lib/
 plugins/
-public/
-  auth/
-  demo/
-  ai.png
-  ai.svg
-  file.svg
-  globe.svg
-  iphone.png
-  logo.png
-  logo.svg
-  window.svg
 scripts/
   db/
   jobs/
@@ -75,7 +69,9 @@ tests/
   accessibility/
   e2e/
   integration/
+  performance/
   unit/
+  visual/
 types/
 ui/
 utils/
@@ -83,7 +79,8 @@ utils/
 .gitignore
 .mcp.json
 AGENTS.md
-… 17 more
+CMS blog.code-workspace
+… 18 more
 ```
 <!-- sinapsi:end -->
 
@@ -97,6 +94,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T03:29:49+02:00 — Delivered isolated demo reset, accessibility, visuals and production performance budgets.
 - 2026-07-22T03:07:40+02:00 — Delivered verified compensating media and governed explicit AI suggestions.
 - 2026-07-22T02:39:02+02:00 — Delivered versioned review, restore, durable scheduling and immutable public publication.
 - 2026-07-22T02:13:25+02:00 — Delivered database-backed sessions, RBAC, durable posts and conflict-safe autosave.
@@ -109,10 +107,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- Phases 0–3 are complete: editorial, publication, verified media and AI share authenticated workspace boundaries.
-- Media is stream-capped/decoded; atomic replacement plus leased cleanup preserves the active object on failure.
-- Mock/Gemini AI share a validated contract, durable quotas/rates, bounded timeout and explicit Apply workflow.
-- Migrations `0000`–`0002` reproduce the complete durable core and provider governance state.
-- Frozen install, typecheck/lint, 17 unit, 21 integration, build, zero audit findings and 10 E2E/axe tests pass.
+- Phases 0–4 are complete; P-01 through P-17 have executable implementation evidence.
+- Owner-only demo reset is workspace-bounded, rate-limited and idempotent; sessions/configured data survive.
+- Four-surface axe, keyboard/focus/reduced-motion and six desktop/mobile visual baselines pass.
+- Production budgets pass: LCP 180/256 ms, CLS 0, INP upper bound <16 ms and JS 142/221 KB.
+- Frozen install, typecheck/lint, 17 unit, 25 integration, 10 E2E, 6 a11y, 5 visual and 2 perf pass.
 - Historical provider values in `8f83cec` still require owner rotation; never print or rewrite them.
-- Next: bounded demo reset, deeper accessibility, performance budgets, visuals and recruiter guidance.
+- Next: truthful release docs/screenshots, final clean gates, GitHub PR/CI/release and live verification.

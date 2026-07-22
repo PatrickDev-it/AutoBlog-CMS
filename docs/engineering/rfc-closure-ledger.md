@@ -17,11 +17,11 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | P-10 | Bounded verified media with safe replacement | MIME/size/dimension/isolation + compensation/cleanup + E2E | Verified |
 | P-11 | Authorized, metered, bounded AI command | quota/rate/timeout/anonymous + explicit-Apply E2E | Verified |
 | P-12 | Explicit mock/configured adapter contract | shared mock/Gemini structured-output tests | Verified |
-| P-13 | Domain ownership; obsolete paths removed | type/lint/dead-route inspection | In progress |
-| P-14 | Tested accessibility targets | axe + keyboard/focus evidence | Open |
-| P-15 | Semantic caching and measured budgets | Lighthouse + bundle evidence | Open |
+| P-13 | Domain ownership; obsolete paths removed | modular tree + type/lint + legacy asset deletion | Verified |
+| P-14 | Tested accessibility targets | four-surface axe + keyboard/focus/reduced-motion + visual baselines | Verified |
+| P-15 | Semantic caching and measured budgets | production LCP/INP/CLS/JS executable budgets | Verified |
 | P-16 | Stable non-leaking public errors | API contract tests | Verified |
-| P-17 | Guided bounded recruiter demo | flagship E2E + reset test | Open |
+| P-17 | Guided bounded recruiter demo | dynamic checklist + isolated idempotent reset integration/E2E | Verified |
 | P-18 | CI, truthful docs, screenshots and release | CI/release/public verification | In progress |
 
 ## Release-only external dependencies

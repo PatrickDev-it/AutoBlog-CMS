@@ -3,11 +3,13 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
 	testDir: './tests',
 	testMatch: '**/*.spec.ts',
+	testIgnore: ['**/visual/**', '**/performance/**'],
 	fullyParallel: false,
 	workers: 1,
 	forbidOnly: Boolean(process.env.CI),
 	retries: process.env.CI ? 2 : 0,
 	reporter: process.env.CI ? [['html', { open: 'never' }], ['github']] : 'list',
+	snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}{ext}',
 	use: {
 		baseURL: 'http://127.0.0.1:3000',
 		trace: 'retain-on-failure',

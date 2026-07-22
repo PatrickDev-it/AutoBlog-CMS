@@ -32,6 +32,8 @@ erDiagram
 - Audit events are append-only; a database trigger rejects updates.
 - Migration `0002` replaces the coupled media blob table with opaque `media_objects`, constrains one
   active asset per post and adds transactional monthly AI quota windows.
+- Migration `0003` adds immutable operation/idempotency records that intentionally survive the demo
+  workspace cascade so a retry cannot trigger a second reset.
 
 Migrations are checksum-verified. Changing an applied SQL file fails with
 `MIGRATION_CHECKSUM_MISMATCH`; schema evolution requires a new numbered file.

@@ -30,6 +30,7 @@ and credentials are diagnostic-only and are never returned.
 | `/api/workspaces/:workspaceId/media/:assetId` | GET | `workspace.read` | private verified bytes |
 | `/api/workspaces/:workspaceId/media/:assetId` | DELETE | `media.delete` | logical deletion + cleanup job |
 | `/api/workspaces/:workspaceId/ai/suggest` | POST | `ai.suggest` | labeled, metered suggestion only |
+| `/api/workspaces/:workspaceId/demo/reset` | POST | Owner + demo guard | idempotent bounded fixture result |
 | `/api/jobs/run` | POST | `jobs.run` or scheduler secret | bounded publication/media execution results |
 | `/preview/:workspaceSlug/:postSlug` | GET | public | immutable published revision or 404 |
 | `/api/health` | GET | public | readiness without secret details |
@@ -38,6 +39,8 @@ Mutation adapters require a trusted `Origin` in addition to the HTTP-only sessio
 and actor identity are always derived from that session; neither is accepted from JSON payloads.
 The scheduler adapter instead uses the distinct `x-autoblog-cron-secret`, compared by SHA-256 digest
 with constant-time equality; it never accepts workspace/job payloads from the caller.
+Application JSON responses are `private, no-store`; this does not alter static marketing or explicit
+public-preview revalidation.
 
 Stable application codes are `UNAUTHENTICATED`, `FORBIDDEN`, `NOT_FOUND`,
 `VALIDATION_FAILED`, `VERSION_CONFLICT`, `ILLEGAL_TRANSITION`, `QUOTA_EXCEEDED`,

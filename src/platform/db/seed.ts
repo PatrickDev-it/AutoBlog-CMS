@@ -1,5 +1,5 @@
 import { hashPassword } from 'better-auth/crypto';
-import { eq } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { DEMO_IDENTITIES, DEMO_PASSWORD, DEMO_WORKSPACE_ID, DEMO_WORKSPACE_SLUG } from '@/src/modules/identity/demo';
@@ -8,6 +8,7 @@ import {
 	accounts,
 	auditEvents,
 	memberships,
+	mediaObjects,
 	posts,
 	publications,
 	revisions,
@@ -88,7 +89,10 @@ export async function seedDemo(database: DatabaseContext, options: Readonly<{ re
 		}).onConflictDoNothing();
 	}
 
-	if (options.reset) await database.db.delete(workspaces).where(eq(workspaces.id, DEMO_WORKSPACE_ID));
+	if (options.reset) {
+		await database.db.delete(mediaObjects).where(like(mediaObjects.storageKey, `${DEMO_WORKSPACE_ID}/%`));
+		await database.db.delete(workspaces).where(eq(workspaces.id, DEMO_WORKSPACE_ID));
+	}
 
 	const existing = await database.db.select({ id: workspaces.id }).from(workspaces).where(eq(workspaces.id, DEMO_WORKSPACE_ID)).limit(1);
 	if (existing.length > 0) return;

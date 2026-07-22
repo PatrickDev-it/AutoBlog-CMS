@@ -129,3 +129,28 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   restoring the prior commit/database snapshot. Configured Gemini remains opt-in and billable.
 - Remaining risk: demo reset, accessibility depth, performance/visual evidence and release delivery
   are Phase 4/5. Final status: complete.
+
+## 2026-07-22T03:29:49+02:00 — Deliver bounded demo and measured product quality
+
+- Goal: close P-13, P-14, P-15 and P-17 with repeatable recruiter and quality evidence.
+- Decision: accepted RFC 004/ADR 004 for an idempotent bounded reset, route-semantic caching,
+  targeted accessibility claims, versioned visuals and production-mode performance budgets.
+- Demo: added Owner-only origin-protected reset with durable idempotency and a three/hour database
+  limit. It verifies `is_demo`, deletes only demo objects/relations and preserves identities, sessions
+  and configured workspaces before running the canonical validated seed.
+- Product: checklist progress now derives from persisted version/workflow/publication state; creation
+  focuses the title, role/mode/data-path disclosure is visible and reset requires explicit confirmation.
+- Accessibility: added serious/critical axe scans on marketing, sign-in, workspace and preview;
+  keyboard draft/review flow, focus management and reduced-motion assertions pass.
+- Visual: added six reviewed cross-CI-stable Chromium baselines for desktop/mobile major surfaces and
+  removed 17 unreachable legacy/canned public assets.
+- Performance: accepted LCP ≤2.5 s, CLS ≤0.10, INP/event ≤200 ms and JS 180/320 KiB budgets.
+  Production measurements pass at 180/256 ms LCP, 0 CLS, <16 ms event upper bound, 143 ms workflow
+  response and 141,959/221,420 transferred JavaScript bytes.
+- Caching: marketing remains static; protected JSON is `private, no-store`; authenticated media is
+  private five-minute; public preview retains 60-second revalidation; health remains no-store.
+- CI: separated E2E, accessibility, Windows visual regression and Linux production performance jobs.
+- Validation: frozen install, strict typecheck/lint, 17 unit, 25 integration, 10 E2E, 6 accessibility,
+  5 visual and 2 performance tests, build, secrets and zero-vulnerability audit pass.
+- Breaking changes: migration `0003` adds immutable reset idempotency. Visual baselines are reviewed
+  on Windows Chromium to control font rasterization. Final status: complete.

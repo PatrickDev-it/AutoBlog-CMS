@@ -253,6 +253,14 @@ export const aiQuotaWindows = sqliteTable('ai_quota_windows', {
 	check('ai_quota_used_nonnegative', sql`${table.usedCharacters} >= 0`),
 ]);
 
+export const idempotencyRecords = sqliteTable('idempotency_records', {
+	workspaceId: text('workspace_id').notNull(),
+	operation: text('operation').notNull(),
+	key: text('key').notNull(),
+	result: text('result', { mode: 'json' }).$type<Record<string, unknown>>().notNull(),
+	createdAt: timestamp('created_at').notNull(),
+}, (table) => [primaryKey({ columns: [table.workspaceId, table.operation, table.key] })]);
+
 export const schema = {
 	users,
 	sessions,
@@ -271,4 +279,5 @@ export const schema = {
 	jobs,
 	rateLimits,
 	aiQuotaWindows,
+	idempotencyRecords,
 };
