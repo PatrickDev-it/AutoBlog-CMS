@@ -274,3 +274,18 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   pending on draft PR #3.
 - Terminal status remains `EXTERNALLY BLOCKED`: historical provider rotation, durable public runtime,
   scheduler, anonymous demo, merge and release remain owner-controlled gates.
+
+## 2026-07-22T11:44:31+02:00 — Verify the protected candidate after history-scan repair
+
+- Remote evidence: PR run `29908929694` passes all eleven required jobs, including the TruffleHog
+  PR-range history scan; the security job completes in 22 seconds instead of aborting on CLI parsing.
+- Security posture: runtime audit and current-tree scanning remain zero-finding. The green range scan
+  does not revoke provider values already known in shared historical commit `8f83cec`; rotation remains
+  a hard external release condition.
+- Presentation: repository description and topics now identify the candidate's actual architectural
+  evidence—database sessions, workspace RBAC, immutable revisions, conflict-safe autosave, libSQL and
+  tested media/AI boundaries.
+- Scope: no application behavior, assertion, dependency, branch protection, credential, release or
+  deployment setting changed.
+- Terminal status remains `EXTERNALLY BLOCKED`; PR #3 stays draft and AutoBlog remains intentionally
+  absent from the recommended profile pins until the public release gates close.

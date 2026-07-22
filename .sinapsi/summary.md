@@ -106,6 +106,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T11:44:31+02:00 — Verified all eleven protected PR jobs after the history-scan repair.
 - 2026-07-22T11:39:38+02:00 — Removed duplicate action-owned flags that aborted TruffleHog before scanning.
 - 2026-07-22T04:27:00+02:00 — Preserved dot-prefixed performance artifacts in CI.
 - 2026-07-22T04:21:56+02:00 — Added reproducible Lighthouse and bundle release evidence.
@@ -115,7 +116,6 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
 - 2026-07-22T03:37:58+02:00 — Replaced legacy product claims with tested release, security and operations evidence.
 - 2026-07-22T03:29:49+02:00 — Delivered isolated demo reset, accessibility, visuals and production performance budgets.
 - 2026-07-22T03:07:40+02:00 — Delivered verified compensating media and governed explicit AI suggestions.
-- 2026-07-22T02:39:02+02:00 — Delivered versioned review, restore, durable scheduling and immutable public publication.
 
 ## Where things stand
 
@@ -124,11 +124,11 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
 - Terminal status is EXTERNALLY BLOCKED; P-01–P-17 Verified, P-18 repository work complete.
-- Draft PR #3; run `29885890517` passes all ten source/test/build/performance jobs.
+- Draft PR #3; run `29908929694` passes all eleven protected jobs including the history-range scan.
 - Local P-15 now includes two direct budgets, six Lighthouse reports and bundle JSON evidence.
 - Hidden report artifacts are explicitly included with seven-day CI retention.
-- Audit/current-tree scan pass; duplicate action-owned flags were removed so history scanning can execute.
+- Runtime audit, current-tree scan and corrected TruffleHog PR-range scan pass.
 - `main` requires all eleven checks with admin enforcement and no force-push/deletion.
 - Public GitHub is verified; homepage remains blank because no public v2 is verified.
 - Vercel candidate returns HTTP 302 to SSO; production remains old commit `485f037`.
-- Owner action: verify history scan, rotate credentials, configure durable runtime/scheduler and expose public URL.
+- Owner action: rotate credentials, configure durable runtime/scheduler and expose public URL.

@@ -22,10 +22,11 @@
 
 ## Current remote gate
 
-- Run `29885890517` passed all ten source/test/build/performance jobs.
-- Its security job aborted before TruffleHog execution because action-owned `--fail`/`--no-update`
-  flags were duplicated in `extra_args`; the workflow now removes only those duplicates.
-- Push the workflow correction and require the full history scan to execute; do not suppress findings.
+- Run `29908929694` passes all eleven protected jobs: frozen install, typecheck, lint, unit,
+  integration, E2E, accessibility, visual regression, performance/Lighthouse, production build and
+  security audit/history-range scan.
+- The corrected TruffleHog step executes successfully with its pinned action-owned fail semantics.
+- PR #3 remains draft because green repository checks do not close the owner-controlled release gates.
 
 ## External blockers
 
@@ -38,7 +39,7 @@
 
 ## Owner completion sequence
 
-Push and verify the corrected history scan; rotate/revoke credentials; configure durable runtime and
-scheduler; expose an approved public URL; rerun PR #3. After every protected check passes, mark ready,
-merge normally, deploy merged SHA, execute the clean-browser workflow, set homepage and create/verify
-`v2.0.0`. Until then do not merge, tag, release, pin or advertise the old/protected deployment as v2.
+Rotate/revoke credentials; configure durable runtime and scheduler; expose an approved public URL; rerun
+PR #3. After every protected check passes, mark ready, merge normally, deploy merged SHA, execute the
+clean-browser workflow, set homepage and create/verify `v2.0.0`. Until then do not merge, tag, release,
+pin or advertise the old/protected deployment as v2.
