@@ -17,8 +17,8 @@
   141,959/221,420 bytes. Bundle JSON is generated for representative public/editor routes.
 - Lighthouse medians: marketing/sign-in performance 0.92/0.91, all other category scores 1.00,
   LCP 1,718/1,709 ms and CLS 0. CI retains six HTML reports plus bundle evidence for seven days.
-- Prior remote baseline run `29884709549` passes every functional/build/visual/performance job.
-  Runtime audit and current-tree scan pass; only required full-history scanning fails.
+- Remote run `29885689908` passes every source, test, build and Lighthouse step. It exposed the
+  upload action's hidden-path default, now explicitly corrected; runtime audit/current-tree scan pass.
 - Public GitHub repository is anonymously reachable. Description/topics and release docs are current.
 
 ## External blockers

@@ -248,3 +248,13 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   direct performance tests, six Lighthouse reports, runtime audit and current-tree scan pass.
 - Terminal status remains `EXTERNALLY BLOCKED`: P-01–P-17 are Verified; P-18 still requires provider
   credential rotation, durable public runtime/scheduler configuration and anonymous deployment.
+
+## 2026-07-22T04:27:00+02:00 — Preserve dot-prefixed performance artifacts in CI
+
+- Goal: make the already-green Lighthouse and bundle outputs downloadable from the protected job.
+- Evidence: remote run `29885689908` passed build, both direct performance tests and all six
+  Lighthouse runs; only artifact upload failed because the action excludes hidden paths by default.
+- Fix: enabled the pinned upload action's `include-hidden-files` option for `.lighthouse/` and
+  `.performance/`; paths, seven-day retention, missing-file failure and all budgets are unchanged.
+- Scope: workflow-only correction. No application, test assertion, dependency or report content
+  changed. Terminal status remains `EXTERNALLY BLOCKED` for the documented external release gates.
