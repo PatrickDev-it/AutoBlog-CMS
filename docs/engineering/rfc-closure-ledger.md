@@ -22,11 +22,13 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | P-15 | Semantic caching and measured budgets | production LCP/INP/CLS/JS executable budgets | Verified |
 | P-16 | Stable non-leaking public errors | API contract tests | Verified |
 | P-17 | Guided bounded recruiter demo | dynamic checklist + isolated idempotent reset integration/E2E | Verified |
-| P-18 | CI, truthful docs, screenshots and release | versioned real-app visuals + docs + CI/release/public verification | In progress |
+| P-18 | CI, truthful docs, screenshots and release | versioned visuals/docs + PR #3; release/public verification externally blocked | Externally blocked |
 
 ## Release-only external dependencies
 
 - Rotate/revoke the historical MongoDB, Cloudinary and Gemini credentials named in the baseline.
 - Configure the existing deployment with a remote libSQL URL/token and a unique Better Auth secret.
+- Disable Vercel preview/production deployment protection for the intended public URL, or supply an
+  approved public domain; the current candidate redirects anonymous reviewers to Vercel login.
 - GitHub and deployment mutations proceed only after local gates pass and authenticated ownership
   is verified as `PatrickDev-it`.

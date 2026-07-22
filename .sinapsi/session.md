@@ -190,3 +190,24 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   zero-vulnerability runtime audit and current-tree secret scan pass.
 - Remaining release risk is external: historical credential rotation, remote durable configuration,
   full-history CI, merge/tag/release and clean-session public deployment verification.
+
+## 2026-07-22T03:55:11+02:00 — Publish the candidate and prove the external release boundary
+
+- Goal: complete all authorized GitHub-side release work and distinguish repository failures from
+  actions that require provider/account ownership.
+- Delivery: pushed `feat/rfc-editorial-cms` and opened draft PR
+  `https://github.com/PatrickDev-it/AutoBlog-CMS/pull/3` at candidate commit `3e9bc9a`.
+- CI: frozen install, typecheck, lint, unit, integration, E2E, accessibility, visual regression,
+  performance and production build all pass remotely. Security audit/current-tree scan pass; the
+  required TruffleHog history step fails on the known historical provider finding.
+- Governance: updated the official pinned `actions/checkout` dependency from v4.2.2 to v7.0.1
+  (`3d3c42e5aac5ba805825da76410c181273ba90b1`) to remove the Node 20 deprecation warning. The
+  existing `setup-bun` pin is already the official v2.2.0 release.
+- GitHub metadata: verified `PatrickDev-it`, updated the public repository description and focused
+  topics, removed obsolete `docker`; homepage remains blank because no public v2 URL is verified.
+- Deployment: Vercel built the correct candidate, but anonymous requests redirect to Vercel login.
+  Existing production still points to old commit `485f037`; neither is advertised as public v2.
+- Ledger: P-18 is `Externally blocked`; P-01 through P-17 remain Verified.
+- External actions: account owners must rotate/revoke the named historical credentials, configure
+  remote libSQL/auth/cron and one-minute scheduling, and expose an approved public URL.
+- Validation: documentation contract 2/2 and diff integrity pass. No merge, tag or release created.

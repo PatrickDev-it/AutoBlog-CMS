@@ -14,5 +14,6 @@
   password recovery, MFA and identity-provider federation are not implemented.
 - Membership management is policy-defined but has no recruiter-demo UI.
 - Analytics and engagement metrics are intentionally absent rather than simulated.
-- Public v2 deployment remains blocked until historical provider credentials are rotated and the
-  existing deployment owner configures durable remote libSQL plus the scheduler.
+- Public v2 deployment remains blocked until historical provider credentials are rotated, the
+  deployment owner configures durable remote libSQL plus the scheduler, and Vercel deployment
+  protection is removed from the intended recruiter-facing URL.
