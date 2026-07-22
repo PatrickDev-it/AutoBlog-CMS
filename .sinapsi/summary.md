@@ -106,6 +106,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T11:53:23+02:00 — Aligned release evidence with the final 11/11 green protected rerun.
 - 2026-07-22T11:44:31+02:00 — Verified all eleven protected PR jobs after the history-scan repair.
 - 2026-07-22T11:39:38+02:00 — Removed duplicate action-owned flags that aborted TruffleHog before scanning.
 - 2026-07-22T04:27:00+02:00 — Preserved dot-prefixed performance artifacts in CI.
@@ -115,7 +116,6 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
 - 2026-07-22T03:48:11+02:00 — Stabilized isolated Playwright runs and passed the complete local release matrix.
 - 2026-07-22T03:37:58+02:00 — Replaced legacy product claims with tested release, security and operations evidence.
 - 2026-07-22T03:29:49+02:00 — Delivered isolated demo reset, accessibility, visuals and production performance budgets.
-- 2026-07-22T03:07:40+02:00 — Delivered verified compensating media and governed explicit AI suggestions.
 
 ## Where things stand
 
@@ -124,7 +124,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
 - Terminal status is EXTERNALLY BLOCKED; P-01–P-17 Verified, P-18 repository work complete.
-- Draft PR #3; run `29908929694` passes all eleven protected jobs including the history-range scan.
+- Draft PR #3; run `29909234038` attempt 2 passes all eleven protected jobs including the history-range scan.
 - Local P-15 now includes two direct budgets, six Lighthouse reports and bundle JSON evidence.
 - Hidden report artifacts are explicitly included with seven-day CI retention.
 - Runtime audit, current-tree scan and corrected TruffleHog PR-range scan pass.

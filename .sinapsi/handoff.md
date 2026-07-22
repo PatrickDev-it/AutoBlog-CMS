@@ -22,10 +22,11 @@
 
 ## Current remote gate
 
-- Run `29908929694` passes all eleven protected jobs: frozen install, typecheck, lint, unit,
+- Run `29909234038` attempt 2 passes all eleven protected jobs: frozen install, typecheck, lint, unit,
   integration, E2E, accessibility, visual regression, performance/Lighthouse, production build and
   security audit/history-range scan.
-- The corrected TruffleHog step executes successfully with its pinned action-owned fail semantics.
+- The corrected TruffleHog step executes successfully with its pinned action-owned fail semantics;
+  the visual rerun also confirms the preceding 691-pixel mismatch was transient rather than a code change.
 - PR #3 remains draft because green repository checks do not close the owner-controlled release gates.
 
 ## External blockers

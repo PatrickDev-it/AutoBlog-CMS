@@ -289,3 +289,14 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   deployment setting changed.
 - Terminal status remains `EXTERNALLY BLOCKED`; PR #3 stays draft and AutoBlog remains intentionally
   absent from the recommended profile pins until the public release gates close.
+
+## 2026-07-22T11:53:23+02:00 — Align final protected evidence and release narrative
+
+- Remote evidence: run `29909234038` attempt 2 passes all eleven required jobs; the isolated visual
+  rerun passed all five baselines after the preceding 691-pixel mismatch on a documentation-only SHA.
+- Documentation: replaced the obsolete claim that history scanning must remain red with the actual
+  distinction between an automated zero-finding range scan and owner-confirmed credential revocation.
+- Scope: release evidence and Sinapsi state only; no application behavior, assertion, dependency,
+  credential, protection rule, deployment or release state changed.
+- Terminal status remains `EXTERNALLY BLOCKED`: provider rotation, durable remote libSQL/scheduler
+  configuration, anonymous public verification, merge, deployment and `v2.0.0` remain outstanding.
