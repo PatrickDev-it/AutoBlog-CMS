@@ -54,4 +54,5 @@ coverage/
 playwright-report/
 test-results/
 tests/visual/surfaces.spec.ts-snapshots/*-chromium-win32.png
-.lighthouseci/
+.lighthouse/
+.performance/

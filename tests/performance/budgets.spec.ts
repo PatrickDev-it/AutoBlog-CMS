@@ -1,3 +1,4 @@
+import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 
 const BUDGETS = {
@@ -10,6 +11,16 @@ const BUDGETS = {
 } as const;
 
 type Metrics = Readonly<{ lcp: number; cls: number; eventDuration: number; javaScriptBytes: number }>;
+const report: Record<string, unknown> = {};
+
+test.beforeAll(async () => {
+	await rm('.performance', { recursive: true, force: true });
+	await mkdir('.performance', { recursive: true });
+});
+
+test.afterAll(async () => {
+	await writeFile('.performance/bundle-report.json', `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+});
 
 async function installObservers(context: BrowserContext) {
 	await context.addInitScript(() => {
@@ -48,6 +59,7 @@ test('marketing route stays inside production Web Vital and JavaScript budgets',
 	const context = await browser.newContext(); await installObservers(context);
 	const page = await context.newPage(); await page.goto('/');
 	const metrics = await readMetrics(page);
+	report.marketing = metrics;
 	process.stdout.write(`[performance] landing ${JSON.stringify(metrics)}\n`);
 	expect(metrics.lcp).toBeGreaterThan(0);
 	expect(metrics.lcp).toBeLessThanOrEqual(BUDGETS.lcpMs);
@@ -71,6 +83,7 @@ test('cold authenticated workspace stays inside production interaction and bundl
 	const interactionMs = await page.evaluate((started) => performance.now() - started, before);
 	const metrics = await readMetrics(page);
 	const inpUpperBoundMs = metrics.eventDuration || 16;
+	report.workspace = { ...metrics, inpUpperBoundMs, workflowResponseMs: Math.round(interactionMs) };
 	process.stdout.write(`[performance] workspace ${JSON.stringify({ ...metrics, inpUpperBoundMs, workflowResponseMs: Math.round(interactionMs) })}\n`);
 	expect(metrics.lcp).toBeGreaterThan(0);
 	expect(metrics.lcp).toBeLessThanOrEqual(BUDGETS.lcpMs);

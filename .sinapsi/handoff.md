@@ -12,11 +12,13 @@
 ## Verified evidence
 
 - Local: frozen install, migrations `0000`–`0003`/seed from empty, type/lint/build, 19 unit,
-  25 integration, 10 E2E, 6 a11y, 5 visual and 2 performance tests pass.
-- Remote run `29884450920`: every functional/build/visual/performance job passes on head `78af05b`.
+  25 integration, 10 E2E, 6 a11y, 5 visual, 2 direct performance and 6 Lighthouse runs pass.
+- Direct lab: LCP 188/300 ms, CLS 0, interaction 16 ms, response 146 ms and JavaScript
+  141,959/221,420 bytes. Bundle JSON is generated for representative public/editor routes.
+- Lighthouse medians: marketing/sign-in performance 0.92/0.91, all other category scores 1.00,
+  LCP 1,718/1,709 ms and CLS 0. CI retains six HTML reports plus bundle evidence for seven days.
+- Prior remote baseline run `29884709549` passes every functional/build/visual/performance job.
   Runtime audit and current-tree scan pass; only required full-history scanning fails.
-- Production lab: LCP 156/168 ms, CLS 0, interaction 16 ms, response 106 ms and JavaScript
-  141,959/221,420 bytes.
 - Public GitHub repository is anonymously reachable. Description/topics and release docs are current.
 
 ## External blockers

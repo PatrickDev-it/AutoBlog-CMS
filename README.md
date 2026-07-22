@@ -103,12 +103,13 @@ bun run test:a11y
 bun run test:visual
 bun run build
 bun run test:performance
+bun run test:lighthouse
 bun run audit
 bun run security:secrets
 ```
 
-The measured local release evidence is 19 unit, 25 integration, 10 E2E, 6 accessibility, 5 visual
-and 2 production-performance tests. Current budgets and measurements are recorded in
+The measured local release evidence is 19 unit, 25 integration, 10 E2E, 6 accessibility, 5 visual,
+2 direct performance tests and 6 Lighthouse runs. Current budgets and measurements are recorded in
 [docs/performance.md](./docs/performance.md); these are lab targets, not universal field claims.
 
 ## Engineering documentation

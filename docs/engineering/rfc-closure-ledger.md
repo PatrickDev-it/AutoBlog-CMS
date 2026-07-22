@@ -19,7 +19,7 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 | P-12 | Explicit mock/configured adapter contract | shared mock/Gemini structured-output tests | Verified |
 | P-13 | Domain ownership; obsolete paths removed | modular tree + type/lint + legacy asset deletion | Verified |
 | P-14 | Tested accessibility targets | four-surface axe + keyboard/focus/reduced-motion + visual baselines | Verified |
-| P-15 | Semantic caching and measured budgets | production LCP/INP/CLS/JS executable budgets | Verified |
+| P-15 | Semantic caching and measured budgets | production LCP/INP/CLS/JS budgets + six Lighthouse reports | Verified |
 | P-16 | Stable non-leaking public errors | API contract tests | Verified |
 | P-17 | Guided bounded recruiter demo | dynamic checklist + isolated idempotent reset integration/E2E | Verified |
 | P-18 | CI, truthful docs, screenshots and release | versioned visuals/docs + PR #3; release/public verification externally blocked | Externally blocked |

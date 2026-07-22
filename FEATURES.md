@@ -22,7 +22,7 @@ automated proof; **Demo-only** is bounded and labeled; **Planned** is not repres
 | Demo reset | Owner-only, origin-checked, idempotent, three operations/hour | isolation/retry/rate integration and E2E | Demo-only, Tested |
 | Responsive product surfaces | desktop and 390×844 layouts | six Chromium visual baselines | Implemented, Tested target |
 | Accessibility targets | labels, focus, keyboard flow, reduced motion | axe on four surfaces plus keyboard/focus tests | Implemented, Tested target |
-| Performance budgets | route-semantic caching and production-mode budgets | executable LCP/CLS/interaction/JS tests | Implemented, Tested target |
+| Performance budgets | route-semantic caching, direct budgets and local Lighthouse reports | executable LCP/CLS/interaction/JS plus six Lighthouse runs | Implemented, Tested target |
 | Analytics | no fake metrics or dashboard | absence is deliberate | Planned |
 | Live co-author merging | conflicts are surfaced; automatic merge is not implemented | no claim | Planned |
 | External object store/CDN | current bounded adapter uses durable libSQL objects | no claim | Planned |

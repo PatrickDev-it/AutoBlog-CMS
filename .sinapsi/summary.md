@@ -37,6 +37,7 @@ data/
   e2e-4868.db
   e2e-8696.db
   e2e.db
+  lighthouse.db
   performance.db
   release-empty-20260722.db
 docs/
@@ -79,6 +80,7 @@ tests/
   accessibility/
   e2e/
   integration/
+  lighthouse/
   performance/
   unit/
   visual/
@@ -90,7 +92,7 @@ utils/
 .mcp.json
 AGENTS.md
 CMS blog.code-workspace
-… 18 more
+… 19 more
 ```
 <!-- sinapsi:end -->
 
@@ -104,6 +106,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T04:21:56+02:00 — Added reproducible Lighthouse and bundle release evidence.
 - 2026-07-22T04:00:33+02:00 — Enforced all release checks and finalized the external-blocker handoff.
 - 2026-07-22T03:55:11+02:00 — Published PR #3, proved CI, metadata and external release blockers.
 - 2026-07-22T03:48:11+02:00 — Stabilized isolated Playwright runs and passed the complete local release matrix.
@@ -113,7 +116,6 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
 - 2026-07-22T02:39:02+02:00 — Delivered versioned review, restore, durable scheduling and immutable public publication.
 - 2026-07-22T02:13:25+02:00 — Delivered database-backed sessions, RBAC, durable posts and conflict-safe autosave.
 - 2026-07-22T01:47:42+02:00 — Closed Phase 0 with strict green gates, zero audit findings and legacy-path deletion.
-- 2026-07-22T01:34:41+02:00 — Reproduced the baseline and accepted the libSQL/Better Auth modular-monolith foundation.
 
 ## Where things stand
 
@@ -122,7 +124,8 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
 - Terminal status is EXTERNALLY BLOCKED; P-01–P-17 Verified, P-18 repository work complete.
-- Draft PR #3 implementation run at `78af05b`: all functional/build/visual/performance jobs pass.
+- Draft PR #3; prior remote baseline `29884709549` passes every functional/build/quality job.
+- Local P-15 now includes two direct budgets, six Lighthouse reports and bundle JSON evidence.
 - Audit/current-tree scan pass; required history scan fails on known values in `8f83cec`.
 - `main` requires all eleven checks with admin enforcement and no force-push/deletion.
 - Public GitHub is verified; homepage remains blank because no public v2 is verified.

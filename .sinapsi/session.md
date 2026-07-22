@@ -228,3 +228,23 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   both procedurally and by branch protection; no bypass was used.
 - Terminal status: `EXTERNALLY BLOCKED`. Repository work is complete; credential rotation, remote
   persistence/scheduler configuration and deployment access require external account ownership.
+
+## 2026-07-22T04:21:56+02:00 — Add reproducible Lighthouse and bundle release evidence
+
+- Goal: close the literal P-15 acceptance gap requiring Lighthouse and bundle reports without
+  weakening the existing direct production budgets.
+- Decision: accepted RFC 005/ADR 005 for six local Lighthouse 13.4.1 reports, a representative
+  public/editor bundle report and seven-day repository-scoped CI artifacts.
+- Dependency review: rejected `@lhci/cli` 0.15.1 after its legacy transitive dependencies introduced
+  additional high-severity development findings. Current Lighthouse adds no runtime finding; the
+  performance job pins its required Node 22.19 and reuses Playwright Chromium.
+- Direct evidence: marketing/workspace LCP 188/300 ms, CLS 0, interaction upper bound 16 ms,
+  workflow response 146 ms and JavaScript 141,959/221,420 bytes all pass accepted budgets.
+- Lighthouse evidence: marketing/sign-in median performance 0.92/0.91, accessibility 1.00,
+  best-practices 1.00, SEO 1.00, LCP 1,718/1,709 ms and CLS 0 across six reports.
+- CI: the independent performance job now requires build, direct measurements, Lighthouse budgets
+  and pinned seven-day report upload. No Lighthouse SaaS, paid service or product data is used.
+- Validation: frozen install, strict typecheck, zero-warning lint, 19 unit, production build, two
+  direct performance tests, six Lighthouse reports, runtime audit and current-tree scan pass.
+- Terminal status remains `EXTERNALLY BLOCKED`: P-01–P-17 are Verified; P-18 still requires provider
+  credential rotation, durable public runtime/scheduler configuration and anonymous deployment.
