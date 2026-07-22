@@ -104,6 +104,7 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
+- 2026-07-22T04:00:33+02:00 — Enforced all release checks and finalized the external-blocker handoff.
 - 2026-07-22T03:55:11+02:00 — Published PR #3, proved CI, metadata and external release blockers.
 - 2026-07-22T03:48:11+02:00 — Stabilized isolated Playwright runs and passed the complete local release matrix.
 - 2026-07-22T03:37:58+02:00 — Replaced legacy product claims with tested release, security and operations evidence.
@@ -120,10 +121,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- P-01 through P-17 are Verified; P-18 is Externally blocked after all repository work.
-- Draft PR #3 is open; every functional/build/visual/performance CI job passes remotely.
+- Terminal status is EXTERNALLY BLOCKED; P-01–P-17 Verified, P-18 repository work complete.
+- Draft PR #3 implementation run at `78af05b`: all functional/build/visual/performance jobs pass.
 - Audit/current-tree scan pass; required history scan fails on known values in `8f83cec`.
-- Local matrix: 19 unit, 25 integration, 10 E2E, 6 a11y, 5 visual and 2 performance.
-- GitHub description/topics are current; homepage remains blank because no public v2 is verified.
-- Vercel candidate redirects anonymous users to login; production remains old commit `485f037`.
+- `main` requires all eleven checks with admin enforcement and no force-push/deletion.
+- Public GitHub is verified; homepage remains blank because no public v2 is verified.
+- Vercel candidate returns HTTP 302 to SSO; production remains old commit `485f037`.
 - Owner action: rotate credentials, configure durable runtime/scheduler and expose public URL.

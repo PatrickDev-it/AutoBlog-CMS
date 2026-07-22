@@ -211,3 +211,20 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
 - External actions: account owners must rotate/revoke the named historical credentials, configure
   remote libSQL/auth/cron and one-minute scheduling, and expose an approved public URL.
 - Validation: documentation contract 2/2 and diff integrity pass. No merge, tag or release created.
+
+## 2026-07-22T04:00:33+02:00 — Enforce the terminal release block
+
+- Goal: make the RFC release gates technically enforceable and leave a stable terminal handoff.
+- Final head `78af05b`: the official `actions/checkout@v7.0.1` pin executes successfully; remote run
+  `29884450920` passes frozen install, typecheck, lint, unit, integration, E2E, accessibility, visual,
+  performance and production build. Only the known full-history finding fails.
+- Protection: `main` now requires all eleven RFC jobs with strict branch freshness, admin enforcement,
+  resolved conversations, no force pushes and no branch deletion.
+- Public repository: an unauthenticated request returns HTTP 200. Description and focused topics are
+  current; homepage remains unset because an accessible v2 deployment does not exist.
+- Deployment: Vercel built `78af05b`, but the anonymous candidate request returns HTTP 302 to Vercel
+  SSO. The clean-session recruiter and runtime persistence gates therefore remain unverified.
+- PR: posted the final evidence and minimum owner actions on draft PR #3. Merge/tag/release are blocked
+  both procedurally and by branch protection; no bypass was used.
+- Terminal status: `EXTERNALLY BLOCKED`. Repository work is complete; credential rotation, remote
+  persistence/scheduler configuration and deployment access require external account ownership.
