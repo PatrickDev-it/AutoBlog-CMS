@@ -13,10 +13,12 @@ test('author autosave survives reload through a real session and durable reposit
 	await expect(page.getByLabel('Title')).toHaveValue('Untitled editorial brief');
 	const content = page.getByLabel('Article body');
 	const marker = `Durable E2E marker ${Date.now()}`;
-	await page.getByLabel('Title').fill(`Durable editorial proof ${Date.now()}`);
+	const title = `Durable editorial proof ${Date.now()}`;
+	await page.getByLabel('Title').fill(title);
 	await content.fill(marker);
 	await expect(page.getByText(/Revision \d+ saved\./)).toBeVisible({ timeout: 12_000 });
 	await page.reload();
+	await page.getByRole('button', { name: new RegExp(title) }).click();
 	await expect(page.getByLabel('Article body')).toHaveValue(marker);
 });
 

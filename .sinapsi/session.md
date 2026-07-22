@@ -78,3 +78,27 @@ Sinapsi archives this file on its own once it passes 150 lines (or its token bud
   forward-only and checksum protected.
 - Remaining risk: workflow transitions, history UI, jobs, media and AI adapters are Phase 2/3.
   Final status: complete.
+
+## 2026-07-22T02:39:02+02:00 — Deliver reliable editorial workflow and publication
+
+- Goal: close P-07, P-08 and P-09 with an executable author-reviewer-publication path.
+- Decision: accepted RFC 002/ADR 002 for a versioned domain state machine, revision-pinned
+  publications and database-leased jobs with three bounded attempts.
+- Changed: implemented six state commands across seven lifecycle states, action-specific RBAC,
+  version preconditions, timestamps, append-only audits and locked review/approval content.
+- Changed: added workspace-scoped revision history, comparison and restore-as-new. Editing or
+  restoring a Published post opens a new Draft while retaining its immutable published pointer.
+- Reliability: scheduling writes a pinned publication and unique job atomically. Claims use a
+  conditional 30-second lease; retry, recovery and repeated execution cannot duplicate the public
+  mutation or audit. Archival cancels only its matching scheduled work.
+- Product/API: added workflow controls, scheduling input, history/compare/restore panels, resilient
+  serialized autosave, public preview and protected transition/revision/job adapters.
+- Testing: added pure transition falsification, restore immutability, stale transition/restore,
+  permission denial, pinned scheduling, malformed-job retry and duplicate-execution coverage.
+- Validation: frozen install, strict typecheck, zero-warning lint, 11 unit tests, 10 integration
+  tests, production build, zero-vulnerability audit and 7 deterministic Chromium E2E/axe tests pass.
+- E2E evidence: Author creates/saves/restores/submits; Reviewer approves; Editor publishes; public
+  preview renders the pinned revision. A second browser writer receives and compares HTTP 409.
+- Breaking changes: post version is explicitly a concurrency token and may have revision gaps after
+  transitions. Deployment scheduling must invoke `jobs:run`; no new migration is required.
+- Remaining risk: media and AI provider boundaries are Phase 3. Final status: complete.

@@ -27,6 +27,8 @@ erDiagram
   the post; a concurrent duplicate or zero-row update maps to `VERSION_CONFLICT`.
 - `published_revision_id` and `publications.revision_id` point at immutable content.
 - Job and publication idempotency keys are unique.
+- Scheduled publications and jobs are inserted in one transaction. The payload pins the immutable
+  revision, and conditional 30-second leases support recovery without duplicate publication.
 - Audit events are append-only; a database trigger rejects updates.
 
 Migrations are checksum-verified. Changing an applied SQL file fails with

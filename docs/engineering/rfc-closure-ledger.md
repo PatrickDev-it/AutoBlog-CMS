@@ -5,15 +5,15 @@ Status values are `Open`, `In progress`, `Verified`, or `Externally blocked`. A 
 
 | ID | Required implementation | Primary evidence | Status |
 | --- | --- | --- | --- |
-| P-01 | One durable application/repository path | integration persistence + restart tests | In progress |
+| P-01 | One durable application/repository path | integration persistence + restart tests | Verified |
 | P-02 | Strict type/lint/build gates | independent CI jobs | Verified |
 | P-03 | Reproducible, patched dependencies | frozen install + runtime audit | Verified |
 | P-04 | Real revocable sessions on every protected adapter | anonymous/session route tests | Verified |
-| P-05 | Five-role application policy | complete positive/negative matrix tests | In progress |
+| P-05 | Five-role application policy | complete positive/negative matrix tests | Verified |
 | P-06 | Canonical validated workspace domain schemas | schema/validation tests | Verified |
-| P-07 | Explicit workflow and durable publisher | state machine + duplicate job tests | Open |
-| P-08 | Immutable revisions, compare and restore | integration + E2E revision tests | Open |
-| P-09 | Debounced conditional autosave and conflict UI | concurrent integration + E2E conflict | Open |
+| P-07 | Explicit workflow and durable publisher | state machine + duplicate/retry job tests + flagship E2E | Verified |
+| P-08 | Immutable revisions, compare and restore | append-only integration + history/restore E2E | Verified |
+| P-09 | Debounced conditional autosave and conflict UI | concurrent integration + stale-writer E2E | Verified |
 | P-10 | Bounded verified media with safe replacement | abuse + failure compensation tests | Open |
 | P-11 | Authorized, metered, bounded AI command | abuse/timeout/malformed tests | Open |
 | P-12 | Explicit mock/configured adapter contract | shared adapter contract tests | Open |

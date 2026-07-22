@@ -8,7 +8,7 @@ const database = createDatabase(environment.DATABASE_URL, environment.DATABASE_A
 
 try {
 	const applied = await migrateDatabase(database.client);
-	if (environment.DEMO_ENABLED) await seedDemo(database);
+	if (environment.DEMO_ENABLED) await seedDemo(database, { reset: process.argv.includes('--reset-demo'), requestId: 'setup-script' });
 	console.log(`Database ready (${applied.length} migration${applied.length === 1 ? '' : 's'} applied).`);
 } finally {
 	database.client.close();

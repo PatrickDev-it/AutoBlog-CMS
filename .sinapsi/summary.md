@@ -16,6 +16,7 @@ app/
   @inset/
   @sidebar/
   api/
+  preview/
   sign-in/
   favicon.ico
   globals.css
@@ -39,6 +40,7 @@ docs/
   architecture.md
   authentication-rbac.md
   data-model.md
+  editorial-workflow.md
 drizzle/
   0000_editorial_core.sql
   0001_auth_rate_limit.sql
@@ -58,6 +60,7 @@ public/
   window.svg
 scripts/
   db/
+  jobs/
   security/
 src/
   modules/
@@ -91,9 +94,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      agent at the end of every patch, at the same time it appends session.md. Drop the
      11th; the full history is in session.md and, once archived, in archive/. -->
 
-- 2026-07-22T01:34:41+02:00 — Reproduced the baseline and accepted the libSQL/Better Auth modular-monolith foundation.
-- 2026-07-22T01:47:42+02:00 — Closed Phase 0 with strict green gates, zero audit findings and legacy-path deletion.
+- 2026-07-22T02:39:02+02:00 — Delivered versioned review, restore, durable scheduling and immutable public publication.
 - 2026-07-22T02:13:25+02:00 — Delivered database-backed sessions, RBAC, durable posts and conflict-safe autosave.
+- 2026-07-22T01:47:42+02:00 — Closed Phase 0 with strict green gates, zero audit findings and legacy-path deletion.
+- 2026-07-22T01:34:41+02:00 — Reproduced the baseline and accepted the libSQL/Better Auth modular-monolith foundation.
 
 ## Where things stand
 
@@ -101,10 +105,10 @@ patch: the project's shape (above), the last sessions at a glance, and a short r
      fragile, what the next action is. Rewritten (not appended) from session.md + handoff.md
      at the end of every patch. If it grows past 10 lines it has stopped being a summary. -->
 
-- Phase 1 is complete on `feat/rfc-editorial-cms`: one Drizzle/libSQL persistence boundary serves demo and configured modes.
-- Better Auth database sessions derive workspace identity; the complete five-role policy matrix is enforced server-side.
-- Protected list/create/edit, immutable revisions and expected-version conflict handling are live in the workspace UI.
-- Frozen install, strict typecheck/lint, 9 unit, 5 integration, build, zero audit findings and 5 E2E/axe tests pass.
-- Two checksum-verified migrations and validated idempotent seed/setup reproduce the database from empty.
-- Historical provider values in `8f83cec` still require owner rotation; never print them or rewrite history.
-- Next: editorial transitions, history/diff/restore, durable publication jobs and immutable public preview.
+- Phases 0–2 are complete on `feat/rfc-editorial-cms`; the seven-state workflow is enforced server-side.
+- Revision history, compare, restore-as-new, serialized autosave and surfaced HTTP 409 conflicts are live.
+- Direct and scheduled publication pin immutable revisions; leased jobs retry three times and execute idempotently.
+- The full Author→Reviewer→Editor→public-preview path passes deterministic browser coverage.
+- Frozen install, typecheck/lint, 11 unit, 10 integration, build, zero audit findings and 7 E2E/axe tests pass.
+- Historical provider values in `8f83cec` still require owner rotation; never print or rewrite them.
+- Next: bounded media replacement/compensation and authorized metered AI suggestions.

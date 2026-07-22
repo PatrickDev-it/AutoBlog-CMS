@@ -9,7 +9,8 @@
     "bun": ">=1.3.12"
   },
   "scripts": {
-    "dev": "bun run db:setup && next dev",
+		"dev": "bun run db:setup && next dev",
+		"dev:e2e": "bun scripts/db/setup.ts --reset-demo && next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit --pretty false",
